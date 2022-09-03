@@ -1,6 +1,6 @@
-import { Schema, model } from "mongoose";
+import mongoose from "mongoose";
 
-const pageSchema = new Schema(
+const pageSchema = new mongoose.Schema(
   {
     title: {
       type: String,
@@ -15,27 +15,21 @@ const pageSchema = new Schema(
       required: [true, "Please provide an image"],
     },
     category: {
-      type: Schema.Types.ObjectId,
+      type: mongoose.Schema.Types.ObjectId,
       ref: "categories", // this is the name of the model
       required: [true, "Please provide a category"],
     },
     likes: [
       {
-        type: Schema.Types.ObjectId,
+        type: mongoose.Schema.Types.ObjectId,
         ref: "users",
       },
     ],
-    reviews: [
-      {
-        reviewer: Schema.Types.ObjectId,
-        review: String,
-        ref: "users",
-      },
-    ],
+    reviews: [{ type: mongoose.Schema.Types.ObjectId, ref: "reviews" }],
   },
   {
     timestamps: true,
   }
 );
 
-export default model("pages", pageSchema);
+export default mongoose.model("pages", pageSchema);

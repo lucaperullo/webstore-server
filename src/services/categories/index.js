@@ -1,9 +1,10 @@
+import express from "express";
 import { authorize } from "../auth/middleware.js";
 import { CloudinaryStorage } from "multer-storage-cloudinary";
 import multer from "multer";
 import cloudinary from "../../cloudinary.js";
 
-const categoriesRouter = Router();
+const categoriesRouter = express.Router();
 
 const errorHandler = async (errorText, value, httpStatusCode) => {
   const err = new Error();

@@ -1,11 +1,9 @@
 import express from "express";
 import bycrypt from "bcrypt";
-import { authenticate, verifyJWT, refresh } from "../auth/tools";
-import UserSchema from "./schema";
-import { authorize } from "../auth/middleware";
+import { authenticate, verifyJWT, refresh } from "../auth/tools.js";
+import UserSchema from "./schema.js";
+import { authorize } from "../auth/middleware.js";
 import passport from "passport";
-import "../auth";
-import { mongoose } from "mongoose";
 
 import cloudinary from "cloudinary";
 import { CloudinaryStorage } from "multer-storage-cloudinary";
@@ -122,6 +120,23 @@ usersRouter.get("/me", authorize, async (req, res, next) => {
     next(error);
   }
 });
+usersRouter.post(
+  "/pictrue/:id",
+  cloudinaryMulter.single("image"),
+  async (req, res, next) => {
+    try {
+      const path = req.file.path;
+      let res = await UserSchema.findByIdAndUpdate(
+        req.params.id,
+        { image: path },
+        { new: true }
+      );
+      res.status(201).send({ res });
+    } catch (error) {
+      next(error);
+    }
+  }
+);
 usersRouter.put("/updateInfo", authorize, async (req, res, next) => {
   try {
     const user = await UserSchema.findOneAndUpdate(
@@ -160,3 +175,5 @@ usersRouter.get(
     }
   }
 );
+
+export default usersRouter;

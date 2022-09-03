@@ -5,8 +5,10 @@ import cors from "cors";
 import listEndpoints from "express-list-endpoints";
 import passport from "passport";
 import cookieParser from "cookie-parser";
-import services from "./services";
 
+import usersRouter from "./services/users/index.js";
+import pageRouter from "./services/pages/index.js";
+import categoriesRouter from "./services/categories/index.js";
 const server = express();
 const port = process.env.PORT || 3001;
 
@@ -32,19 +34,13 @@ server.use(express.json());
 server.use(loggerMiddleware);
 server.use(cookieParser());
 server.use(passport.initialize());
-server.use("/api", services);
+server.use("/users", usersRouter);
+server.use("/pages", pageRouter);
 
-console.log(listEndpoints(server));
-server.use(errorHandler);
-mongoose
-  .connect(process.env.MONGO_CONNECT, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-    useCreateIndex: true,
-    useFindAndModify: false,
+console.table(listEndpoints(server));
+// server.use(errorHandler);
+mongoose.connect(process.env.MONGO_CONNECT).then(
+  server.listen(port, () => {
+    console.log("Server is running on port: ", port);
   })
-  .then(
-    server.listen(port, () => {
-      console.log("Server is running on port: ", port);
-    })
-  );
+);

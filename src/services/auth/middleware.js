@@ -1,5 +1,5 @@
-import { verifyJWT } from "./tools";
-import UserModel from "../users/schema";
+import { verifyJWT } from "./tools.js";
+import UserModel from "../users/schema.js";
 const errorHandler = async (errorText, value, httpStatusCode) => {
   const err = new Error();
   err.errors = [{ value: value, msg: errorText }];
@@ -7,11 +7,11 @@ const errorHandler = async (errorText, value, httpStatusCode) => {
   return err;
 };
 
-const authorize = async (req, res, next) => {
+export const authorize = async (req, res, next) => {
   try {
     const token = req.cookies.token;
     const decoded = await verifyJWT(token);
-    const user = await userModel.findOne({ _id: decoded._id });
+    const user = await UserModel.findOne({ _id: decoded._id });
 
     if (!user) {
       throw new Error();
@@ -23,5 +23,3 @@ const authorize = async (req, res, next) => {
     next(await errorHandler(error));
   }
 };
-
-export default authorize;

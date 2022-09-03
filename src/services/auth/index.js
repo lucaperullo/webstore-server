@@ -1,7 +1,7 @@
 import passport from "passport";
 import FacebookStrategy from "passport-facebook";
-import UserModel from "../users/schema";
-import { authenticate } from "../auth/tools";
+import UserModel from "../users/schema.js";
+import { authenticate } from "../auth/tools.js";
 
 passport.use(
   "facebook",

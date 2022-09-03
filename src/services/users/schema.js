@@ -1,9 +1,9 @@
-import { Schema, model } from "mongoose";
-import bycrypt from "bycrypt";
+import mongoose from "mongoose";
+import bcrypt from "bcrypt";
 import crypto from "crypto";
 import validator from "validator";
 
-const userSchema = new Schema(
+const UserSchema = new mongoose.Schema(
   {
     name: {
       type: String,
@@ -56,16 +56,16 @@ const userSchema = new Schema(
   }
 );
 
-userSchema.statics.findByCredentials = async (email, password) => {
+UserSchema.statics.findByCredentials = async (email, password) => {
   const user = await UserModel.findOne({ email });
   if (user) {
-    const isMatch = await bycrypt.compare(password, user.password);
+    const isMatch = await bcrypt.compare(password, user.password);
     if (isMatch) return user;
     else return null;
   } else return null;
 };
 
-userSchema.methods.changedPasswordAfter = function (JWTTimestamp) {
+UserSchema.methods.changedPasswordAfter = function (JWTTimestamp) {
   if (this.passwordChangedAt) {
     const changedTimestamp = parseInt(
       this.passwordChangedAt.getTime() / 1000,
@@ -76,7 +76,7 @@ userSchema.methods.changedPasswordAfter = function (JWTTimestamp) {
   return false;
 };
 
-userSchema.methods.createPasswordResetToken = function () {
+UserSchema.methods.createPasswordResetToken = function () {
   const resetToken = crypto.randomBytes(32).toString("hex");
   this.passwordResetToken = crypto
     .createHash("sha256")
@@ -86,7 +86,7 @@ userSchema.methods.createPasswordResetToken = function () {
   return resetToken;
 };
 
-userSchema.methods.toJSON = function () {
+UserSchema.methods.toJSON = function () {
   const user = this;
   const userObject = user.toObject();
 
@@ -101,7 +101,7 @@ userSchema.methods.toJSON = function () {
   return userObject;
 };
 
-userSchema.pre("save", async function (next) {
+UserSchema.pre("save", async function (next) {
   const user = this;
   user.role = "user";
 
@@ -113,7 +113,7 @@ userSchema.pre("save", async function (next) {
   }
   next();
 });
-userSchema.pre("findOneAndUpdate", async function (next) {
+UserSchema.pre("findOneAndUpdate", async function (next) {
   const user = this.getUpdate();
 
   const current = await UserSchema.findOne({ username: user.username });
@@ -125,4 +125,4 @@ userSchema.pre("findOneAndUpdate", async function (next) {
   }
 });
 
-export default model("User", userSchema);
+export default mongoose.model("User", UserSchema);
