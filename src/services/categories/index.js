@@ -1,5 +1,6 @@
 import express from "express";
 import { authorize } from "../auth/middleware.js";
+import CategorySchema from "./schema.js";
 import { CloudinaryStorage } from "multer-storage-cloudinary";
 import multer from "multer";
 import cloudinary from "../../cloudinary.js";
@@ -15,7 +16,7 @@ const errorHandler = async (errorText, value, httpStatusCode) => {
 
 categoriesRouter.post("/", authorize, async (req, res, next) => {
   try {
-    const newCategory = new categorySchema(req.body);
+    const newCategory = new CategorySchema(req.body);
     res.status(201).send(newCategory);
   } catch (error) {
     next(await errorHandler(error));
@@ -24,7 +25,7 @@ categoriesRouter.post("/", authorize, async (req, res, next) => {
 
 categoriesRouter.get("/", authorize, async (req, res, next) => {
   try {
-    const categories = await categorySchema.find();
+    const categories = await CategorySchema.find();
     res.send(categories);
   } catch (error) {
     next(await errorHandler(error));
@@ -33,7 +34,7 @@ categoriesRouter.get("/", authorize, async (req, res, next) => {
 
 categoriesRouter.get("/:id", authorize, async (req, res, next) => {
   try {
-    const category = await categorySchema.findById(req.params.id);
+    const category = await CategorySchema.findById(req.params.id);
     res.send(category);
   } catch (error) {
     next(await errorHandler(error));
@@ -42,7 +43,7 @@ categoriesRouter.get("/:id", authorize, async (req, res, next) => {
 
 categoriesRouter.put("/:id", authorize, async (req, res, next) => {
   try {
-    const category = await categorySchema.findByIdAndUpdate(
+    const category = await CategorySchema.findByIdAndUpdate(
       req.params.id,
       req.body,
       {
@@ -57,7 +58,7 @@ categoriesRouter.put("/:id", authorize, async (req, res, next) => {
 
 categoriesRouter.delete("/:id", authorize, async (req, res, next) => {
   try {
-    const category = await categorySchema.findByIdAndDelete(req.params.id);
+    const category = await CategorySchema.findByIdAndDelete(req.params.id);
     res.send(category);
   } catch (error) {
     next(await errorHandler(error));

@@ -36,6 +36,7 @@ server.use(cookieParser());
 server.use(passport.initialize());
 server.use("/users", usersRouter);
 server.use("/pages", pageRouter);
+server.use("/categories", categoriesRouter);
 
 console.table(listEndpoints(server));
 // server.use(errorHandler);
