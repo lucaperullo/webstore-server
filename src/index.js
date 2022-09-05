@@ -17,7 +17,10 @@ const loggerMiddleware = (req, res, next) => {
   next();
 };
 
-const whitelist = [process.env.CLI_URL, "*", undefined];
+const whitelist = [
+  "https://webstorecloud.vercel.app/",
+  "http://localhost:3000",
+];
 const corsOptions = {
   origin: function (origin, next) {
     console.log("ORIGIN --> ", origin);
