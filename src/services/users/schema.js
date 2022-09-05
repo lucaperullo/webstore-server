@@ -82,7 +82,6 @@ UserSchema.methods.toJSON = function () {
   const user = this;
   const userObject = user.toObject();
   delete userObject.__v;
-  delete userObject.refreshTokens;
   delete userObject.createdAt;
   if (userObject.googleId === "") delete userObject.googleId;
   if (userObject.facebookId === "") delete userObject.facebookId;
