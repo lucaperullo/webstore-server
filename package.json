@@ -5,7 +5,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\"",
     "dev": "nodemon -e js -r dotenv/config ./src/index.js",
-    "start": "node ./src/server.js"
+    "start": "node ./src/index.js"
   },
   "type": "module",
   "repository": "https://github.com/lucaperullo/webstore-server.git",
