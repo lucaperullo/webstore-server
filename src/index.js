@@ -17,9 +17,10 @@ const loggerMiddleware = (req, res, next) => {
   next();
 };
 
-const whitelist = [process.env.FE_DEV_URL, process.env.FE_PROD_URL || "*"];
+const whitelist = [process.env.CLI_URL, "*", undefined];
 const corsOptions = {
   origin: function (origin, next) {
+    console.log("ORIGIN --> ", origin);
     if (whitelist.indexOf(origin) !== -1) {
       next(null, true);
     } else {

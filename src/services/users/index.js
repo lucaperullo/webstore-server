@@ -1,11 +1,11 @@
 import express from "express";
-import bycrypt from "bcrypt";
+import bcrypt from "bcrypt";
 import { authenticate, verifyJWT, refresh } from "../auth/tools.js";
 import UserSchema from "./schema.js";
 import { authorize } from "../auth/middleware.js";
 import passport from "passport";
 
-import cloudinary from "cloudinary";
+import cloudinary from "../../cloudinary.js";
 import { CloudinaryStorage } from "multer-storage-cloudinary";
 import multer from "multer";
 
@@ -31,71 +31,41 @@ usersRouter.post("/register", async (req, res, next) => {
     const { _id } = await newUser.save();
     res.status(201).send(_id);
   } catch (error) {
+    console.log(error);
     next(await errorHandler(error));
   }
 });
-
+// tested
 usersRouter.post("/login", async (req, res, next) => {
   try {
-    const { username, password } = req.body;
-    const user_byUsername = await UserSchema.findByCredentials(
-      username,
-      password
-    );
-    if (user_byUsername) {
-      const isMatch = await bycrypt.compare(password, user_byUsername.password);
-      if (isMatch) {
-        const token = await authenticate(user_byUsername);
-        res.cookie("token", token.token, {
-          httpOnly: true,
-          path: "/",
-          sameSite: "none",
-          secure: true,
-        });
-        res
-          .cookie("refreshToken", token.refreshToken, {
-            httpOnly: true,
-            path: "/refreshToken",
-            sameSite: "none",
-            secure: true,
-          })
-          .send(user_byUsername);
-      } else {
-        next(await errorHandler("Wrong credentials", "password", 404));
-      }
+    const { email, password } = req.body;
+    console.log(email, password);
+    const user = await UserSchema.findByCredentials(email, password);
+    console.log(user);
+    if (user) {
+      const tokens = await authenticate(user);
+      res.cookie("accessToken", tokens.token, {
+        sameSite: process.env.NODE_ENV === "production" ? "None" : "Lax",
+        secure: process.env.NODE_ENV === "production" ? true : false,
+        httpOnly: process.env.NODE_ENV === "production" ? true : false,
+      });
+      res
+        .cookie("refreshToken", tokens.refreshToken, {
+          sameSite: process.env.NODE_ENV === "production" ? "None" : "Lax",
+          secure: process.env.NODE_ENV === "production" ? true : false,
+          httpOnly: process.env.NODE_ENV === "production" ? true : false,
+        })
+        .status(200)
+        .send({ message: "login successful", user });
     } else {
-      const user_byEmail = await UserSchema.findByCredentials(
-        req.body.email,
-        password
-      );
-      if (user_byEmail) {
-        const isMatch = await bycrypt.compare(password, user_byEmail.password);
-        if (isMatch) {
-          const token = await authenticate(user_byEmail);
-          res.cookie("token", token.token, {
-            httpOnly: true,
-            path: "/",
-            sameSite: "none",
-            secure: true,
-          });
-          res
-            .cookie("refreshToken", token.refreshToken, {
-              httpOnly: true,
-              path: "/refreshToken",
-              sameSite: "none",
-              secure: true,
-            })
-            .send(user_byEmail);
-        } else {
-          next(await errorHandler("Wrong credentials", "password", 404));
-        }
-      }
+      res.status(404).send({ message: "login failed" });
     }
   } catch (error) {
-    next(await errorHandler(error));
+    res.send({ message: error });
+    next(error);
   }
 });
-
+// tested
 usersRouter.get("/refreshToken", async (req, res, next) => {
   try {
     const oldRefreshToken = req.cookies.refreshToken;
@@ -113,6 +83,7 @@ usersRouter.get("/refreshToken", async (req, res, next) => {
     next(await errorHandler(error));
   }
 });
+// tested
 usersRouter.get("/me", authorize, async (req, res, next) => {
   try {
     res.send(req.user);
@@ -121,17 +92,18 @@ usersRouter.get("/me", authorize, async (req, res, next) => {
   }
 });
 usersRouter.post(
-  "/pictrue/:id",
+  "/picture/:id",
   cloudinaryMulter.single("image"),
   async (req, res, next) => {
     try {
+      console.log(req);
       const path = req.file.path;
-      let res = await UserSchema.findByIdAndUpdate(
+      let resp = await UserSchema.findByIdAndUpdate(
         req.params.id,
         { image: path },
         { new: true }
       );
-      res.status(201).send({ res });
+      res.status(201).send({ resp });
     } catch (error) {
       next(error);
     }
@@ -166,9 +138,9 @@ usersRouter.get(
       });
       res.cookie("refreshToken", req.user.tokens.refreshToken, {
         httpOnly: true,
-        path: "/api/users/refreshToken",
+        path: "/users/refreshToken",
       });
-      res.status(200).redirect("http://localhost:3000/");
+      res.status(200).redirect(process.env.CLI_URL);
     } catch (error) {
       console.log(error);
       next(await errorHandler(error));
