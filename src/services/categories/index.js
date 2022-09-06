@@ -24,7 +24,7 @@ categoriesRouter.post("/", authorize, async (req, res, next) => {
   }
 });
 
-categoriesRouter.get("/", authorize, async (req, res, next) => {
+categoriesRouter.get("/", async (req, res, next) => {
   try {
     // populate the categories with the pages
     let populatedCategories = await CategorySchema.find().populate("pages");
@@ -37,7 +37,7 @@ categoriesRouter.get("/", authorize, async (req, res, next) => {
   }
 });
 
-categoriesRouter.get("/:id", authorize, async (req, res, next) => {
+categoriesRouter.get("/:id", async (req, res, next) => {
   try {
     const category = await CategorySchema.findById(req.params.id);
     res.send(category);

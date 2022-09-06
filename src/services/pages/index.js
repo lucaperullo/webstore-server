@@ -56,7 +56,7 @@ pageRouter.post(
   }
 );
 
-pageRouter.get("/", authorize, async (req, res, next) => {
+pageRouter.get("/", async (req, res, next) => {
   try {
     const pages = await pageSchema.find();
     res.send(pages);
@@ -65,7 +65,7 @@ pageRouter.get("/", authorize, async (req, res, next) => {
   }
 });
 
-pageRouter.get("/:id", authorize, async (req, res, next) => {
+pageRouter.get("/:id", async (req, res, next) => {
   try {
     const page = await pageSchema.findById(req.params.id);
     res.send(page);
