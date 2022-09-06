@@ -13,7 +13,7 @@ const gamesSchema = new Schema({
     type: String,
     required: true,
   },
-  games: [{ type: Schema.Types.ObjectId, ref: "Game" }],
+  games: [{ type: Schema.Types.ObjectId, ref: "GameElement" }],
 });
 
 export default mongoose.model("Games", gamesSchema);

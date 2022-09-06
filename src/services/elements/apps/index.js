@@ -1,5 +1,5 @@
 import express from "express";
-import appSchema from "./schema.js";
+import appelementSchema from "./schema.js";
 import appsSchema from "../../categories/app/schema.js";
 import { authorize } from "../../auth/middleware.js";
 import { CloudinaryStorage } from "multer-storage-cloudinary";
@@ -26,14 +26,11 @@ const errorHandler = async (errorText, value, httpStatusCode) => {
 
 appsRouter.post("/:id", authorize, async (req, res, next) => {
   try {
-    const newApp = new appsSchema(req.body);
-    let ap = await appSchema.findById(req.params.id);
-    let app = appsSchema.findByIdAndUpdate(
-      req.params.id,
-      ap.apps.push(newApp._id)
-    );
+    const newApp = new appelementSchema(req.body);
+    let app = await appsSchema.findById(req.params.id);
+    await appsSchema.findByIdAndUpdate(req.params.id, ap.apps.push(newApp._id));
 
-    console.log(app);
+    app.save();
     newApp.save();
     res.status(201).send(newApp);
   } catch (error) {
@@ -57,7 +54,7 @@ appsRouter.post(
 
 appsRouter.get("/", async (req, res, next) => {
   try {
-    const Apps = await appsSchema.find();
+    const Apps = await appelementSchema.find();
     res.send(Apps);
   } catch (error) {
     next(await errorHandler(error));
@@ -66,7 +63,7 @@ appsRouter.get("/", async (req, res, next) => {
 
 appsRouter.get("/:id", async (req, res, next) => {
   try {
-    const App = await appsSchema.findById(req.params.id);
+    const App = await appelementSchema.findById(req.params.id);
     res.send(App);
   } catch (error) {
     next(await errorHandler(error));
@@ -75,9 +72,13 @@ appsRouter.get("/:id", async (req, res, next) => {
 
 appsRouter.put("/:id", authorize, async (req, res, next) => {
   try {
-    const App = await appsSchema.findByIdAndUpdate(req.params.id, req.body, {
-      new: true,
-    });
+    const App = await appelementSchema.findByIdAndUpdate(
+      req.params.id,
+      req.body,
+      {
+        new: true,
+      }
+    );
     res.send(App);
   } catch (error) {
     next(await errorHandler(error));
@@ -86,7 +87,7 @@ appsRouter.put("/:id", authorize, async (req, res, next) => {
 
 appsRouter.delete("/:id", authorize, async (req, res, next) => {
   try {
-    const App = await appsSchema.findByIdAndDelete(req.params.id);
+    const App = await appelementSchema.findByIdAndDelete(req.params.id);
     res.send(App);
   } catch (error) {
     next(await errorHandler(error));

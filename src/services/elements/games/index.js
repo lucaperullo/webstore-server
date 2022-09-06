@@ -1,5 +1,5 @@
 import express from "express";
-import gameSchema from "./schema.js";
+import gameelementSchema from "./schema.js";
 import gamesSchema from "../../categories/games/schema.js";
 import { authorize } from "../../auth/middleware.js";
 import { CloudinaryStorage } from "multer-storage-cloudinary";
@@ -26,9 +26,9 @@ const errorHandler = async (errorText, value, httpStatusCode) => {
 
 gamesRouter.post("/:id", authorize, async (req, res, next) => {
   try {
-    const newgame = new gameSchema(req.body);
+    const newgame = new gameelementSchema(req.body);
     let ap = await gamesSchema.findById(req.params.id);
-    let game = gameSchema.findByIdAndUpdate(
+    let game = gameelementSchema.findByIdAndUpdate(
       req.params.id,
       ap.games.push(newgame._id)
     );
@@ -57,7 +57,7 @@ gamesRouter.post(
 
 gamesRouter.get("/", async (req, res, next) => {
   try {
-    const games = await gameSchema.find();
+    const games = await gameelementSchema.find();
     res.send(games);
   } catch (error) {
     next(await errorHandler(error));
@@ -66,7 +66,7 @@ gamesRouter.get("/", async (req, res, next) => {
 
 gamesRouter.get("/:id", async (req, res, next) => {
   try {
-    const game = await gameSchema.findById(req.params.id);
+    const game = await gameelementSchema.findById(req.params.id);
     res.send(game);
   } catch (error) {
     next(await errorHandler(error));
@@ -75,9 +75,13 @@ gamesRouter.get("/:id", async (req, res, next) => {
 
 gamesRouter.put("/:id", authorize, async (req, res, next) => {
   try {
-    const game = await gameSchema.findByIdAndUpdate(req.params.id, req.body, {
-      new: true,
-    });
+    const game = await gameelementSchema.findByIdAndUpdate(
+      req.params.id,
+      req.body,
+      {
+        new: true,
+      }
+    );
     res.send(game);
   } catch (error) {
     next(await errorHandler(error));
@@ -86,7 +90,7 @@ gamesRouter.put("/:id", authorize, async (req, res, next) => {
 
 gamesRouter.delete("/:id", authorize, async (req, res, next) => {
   try {
-    const game = await gameSchema.findByIdAndDelete(req.params.id);
+    const game = await gameelementSchema.findByIdAndDelete(req.params.id);
     res.send(game);
   } catch (error) {
     next(await errorHandler(error));

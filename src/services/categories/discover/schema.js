@@ -13,7 +13,7 @@ const discoversSchema = new Schema({
     type: String,
     required: true,
   },
-  discoverz: [{ type: Schema.Types.ObjectId, ref: "Discover" }],
+  discoverz: [{ type: Schema.Types.ObjectId, ref: "DiscoverElement" }],
 });
 
 export default mongoose.model("Discovers", discoversSchema);

@@ -1,6 +1,6 @@
 import express from "express";
 import { authorize } from "../../auth/middleware.js";
-import appSchema from "./schema.js";
+import appsSchema from "./schema.js";
 
 import { CloudinaryStorage } from "multer-storage-cloudinary";
 import multer from "multer";
@@ -17,7 +17,7 @@ const errorHandler = async (errorText, value, httpStatusCode) => {
 
 appsRoutes.post("/", authorize, async (req, res, next) => {
   try {
-    const newapp = new appSchema(req.body);
+    const newapp = new appsSchema(req.body);
     newapp.save();
     res.status(201).send(newapp);
   } catch (error) {
@@ -40,7 +40,7 @@ appsRoutes.get("/", async (req, res, next) => {
 
 appsRoutes.get("/:id", async (req, res, next) => {
   try {
-    const app = await appSchema.findById(req.params.id);
+    const app = await appsSchema.findById(req.params.id);
     res.send(app);
   } catch (error) {
     next(await errorHandler(error));
@@ -49,7 +49,7 @@ appsRoutes.get("/:id", async (req, res, next) => {
 
 appsRoutes.put("/:id", authorize, async (req, res, next) => {
   try {
-    const app = await appSchema.findByIdAndUpdate(req.params.id, req.body, {
+    const app = await appsSchema.findByIdAndUpdate(req.params.id, req.body, {
       new: true,
     });
     res.send(app);
@@ -60,7 +60,7 @@ appsRoutes.put("/:id", authorize, async (req, res, next) => {
 
 appsRoutes.delete("/:id", authorize, async (req, res, next) => {
   try {
-    const app = await appSchema.findByIdAndDelete(req.params.id);
+    const app = await appsSchema.findByIdAndDelete(req.params.id);
     res.send(app);
   } catch (error) {
     next(await errorHandler(error));

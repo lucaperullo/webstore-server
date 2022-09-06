@@ -1,6 +1,6 @@
 import express from "express";
 import { authorize } from "../../auth/middleware.js";
-import discoverSchema from "./schema.js";
+import discoversSchema from "./schema.js";
 
 import { CloudinaryStorage } from "multer-storage-cloudinary";
 import multer from "multer";
@@ -17,9 +17,9 @@ const errorHandler = async (errorText, value, httpStatusCode) => {
 
 discoversRoutes.post("/", authorize, async (req, res, next) => {
   try {
-    const newapp = new appSchema(req.body);
-    newapp.save();
-    res.status(201).send(newapp);
+    const newdiscover = new discoversSchema(req.body);
+    newdiscover.save();
+    res.status(201).send(newdiscover);
   } catch (error) {
     next(await errorHandler(error));
   }
@@ -28,7 +28,9 @@ discoversRoutes.post("/", authorize, async (req, res, next) => {
 discoversRoutes.get("/", async (req, res, next) => {
   try {
     // populate the categories with the pages
-    let populatedCategories = await appSchema.find().populate("pages");
+    let populatedCategories = await discoversSchema
+      .find()
+      .populate("discoverz");
 
     res.send(populatedCategories);
   } catch (error) {
@@ -40,8 +42,8 @@ discoversRoutes.get("/", async (req, res, next) => {
 
 discoversRoutes.get("/:id", async (req, res, next) => {
   try {
-    const app = await appSchema.findById(req.params.id);
-    res.send(app);
+    const discover = await discoversSchema.findById(req.params.id);
+    res.send(discover);
   } catch (error) {
     next(await errorHandler(error));
   }
@@ -49,10 +51,14 @@ discoversRoutes.get("/:id", async (req, res, next) => {
 
 discoversRoutes.put("/:id", authorize, async (req, res, next) => {
   try {
-    const app = await appSchema.findByIdAndUpdate(req.params.id, req.body, {
-      new: true,
-    });
-    res.send(app);
+    const discover = await discoversSchema.findByIdAndUpdate(
+      req.params.id,
+      req.body,
+      {
+        new: true,
+      }
+    );
+    res.send(discover);
   } catch (error) {
     next(await errorHandler(error));
   }
@@ -60,8 +66,8 @@ discoversRoutes.put("/:id", authorize, async (req, res, next) => {
 
 discoversRoutes.delete("/:id", authorize, async (req, res, next) => {
   try {
-    const app = await appSchema.findByIdAndDelete(req.params.id);
-    res.send(app);
+    const discover = await discoversSchema.findByIdAndDelete(req.params.id);
+    res.send(discover);
   } catch (error) {
     next(await errorHandler(error));
   }

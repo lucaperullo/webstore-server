@@ -1,6 +1,6 @@
 import express from "express";
 import { authorize } from "../../auth/middleware.js";
-import gameSchema from "./schema.js";
+import gamesSchema from "./schema.js";
 
 import { CloudinaryStorage } from "multer-storage-cloudinary";
 import multer from "multer";
@@ -17,7 +17,7 @@ const errorHandler = async (errorText, value, httpStatusCode) => {
 
 gamesRoutes.post("/", authorize, async (req, res, next) => {
   try {
-    const newgame = new gameSchema(req.body);
+    const newgame = new gamesSchema(req.body);
     newgame.save();
     res.status(201).send(newgame);
   } catch (error) {
@@ -28,7 +28,7 @@ gamesRoutes.post("/", authorize, async (req, res, next) => {
 gamesRoutes.get("/", async (req, res, next) => {
   try {
     // populate the categories with the pages
-    let populatedCategories = await gameSchema.find().populate("pages");
+    let populatedCategories = await gamesSchema.find().populate("games");
 
     res.send(populatedCategories);
   } catch (error) {
@@ -40,7 +40,7 @@ gamesRoutes.get("/", async (req, res, next) => {
 
 gamesRoutes.get("/:id", async (req, res, next) => {
   try {
-    const game = await gameSchema.findById(req.params.id);
+    const game = await gamesSchema.findById(req.params.id);
     res.send(game);
   } catch (error) {
     next(await errorHandler(error));
@@ -49,7 +49,7 @@ gamesRoutes.get("/:id", async (req, res, next) => {
 
 gamesRoutes.put("/:id", authorize, async (req, res, next) => {
   try {
-    const game = await gameSchema.findByIdAndUpdate(req.params.id, req.body, {
+    const game = await gamesSchema.findByIdAndUpdate(req.params.id, req.body, {
       new: true,
     });
     res.send(game);
@@ -60,7 +60,7 @@ gamesRoutes.put("/:id", authorize, async (req, res, next) => {
 
 gamesRoutes.delete("/:id", authorize, async (req, res, next) => {
   try {
-    const game = await gameSchema.findByIdAndDelete(req.params.id);
+    const game = await gamesSchema.findByIdAndDelete(req.params.id);
     res.send(game);
   } catch (error) {
     next(await errorHandler(error));

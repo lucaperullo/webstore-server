@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-const discoverSchema = new mongoose.Schema(
+const discoverelementSchema = new mongoose.Schema(
   {
     name: {
       type: String,
@@ -32,4 +32,4 @@ const discoverSchema = new mongoose.Schema(
   }
 );
 
-export default mongoose.model("Discover", discoverSchema);
+export default mongoose.model("DiscoverElement", discoverelementSchema);

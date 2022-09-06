@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-const gameSchema = new mongoose.Schema(
+const gameelementSchema = new mongoose.Schema(
   {
     name: {
       type: String,
@@ -32,4 +32,4 @@ const gameSchema = new mongoose.Schema(
   }
 );
 
-export default mongoose.model("Game", gameSchema);
+export default mongoose.model("GameElement", gameelementSchema);

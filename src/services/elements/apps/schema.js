@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-const appSchema = new mongoose.Schema(
+const appelementSchema = new mongoose.Schema(
   {
     name: {
       type: String,
@@ -32,4 +32,4 @@ const appSchema = new mongoose.Schema(
   }
 );
 
-export default mongoose.model("App", appSchema);
+export default mongoose.model("AppElement", appelementSchema);

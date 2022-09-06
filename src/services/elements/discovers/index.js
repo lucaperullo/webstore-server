@@ -1,5 +1,5 @@
 import express from "express";
-import discoverSchema from "./schema.js";
+import discoverelementSchema from "./schema.js";
 import discoversSchema from "../../categories/discover/schema.js";
 import { authorize } from "../../auth/middleware.js";
 import { CloudinaryStorage } from "multer-storage-cloudinary";
@@ -26,14 +26,15 @@ const errorHandler = async (errorText, value, httpStatusCode) => {
 
 discoversRoter.post("/:id", authorize, async (req, res, next) => {
   try {
-    const newdiscover = new discoverSchema(req.body);
+    const newdiscover = new discoverelementSchema(req.body);
     let disc = await discoversSchema.findById(req.params.id);
-    let discover = discoverSchema.findByIdAndUpdate(
+    await discoverelementSchema.findByIdAndUpdate(
       req.params.id,
       disc.discoverz.push(newdiscover._id)
     );
 
-    discover.save();
+    disc.save();
+
     newdiscover.save();
     res.status(201).send(newdiscover);
   } catch (error) {
@@ -57,7 +58,7 @@ discoversRoter.post(
 
 discoversRoter.get("/", async (req, res, next) => {
   try {
-    const discovers = await discoverSchema.find();
+    const discovers = await discoverelementSchema.find();
     res.send(discovers);
   } catch (error) {
     next(await errorHandler(error));
@@ -66,7 +67,7 @@ discoversRoter.get("/", async (req, res, next) => {
 
 discoversRoter.get("/:id", async (req, res, next) => {
   try {
-    const discover = await discoverSchema.findById(req.params.id);
+    const discover = await discoverelementSchema.findById(req.params.id);
     res.send(discover);
   } catch (error) {
     next(await errorHandler(error));
@@ -75,7 +76,7 @@ discoversRoter.get("/:id", async (req, res, next) => {
 
 discoversRoter.put("/:id", authorize, async (req, res, next) => {
   try {
-    const discover = await discoverSchema.findByIdAndUpdate(
+    const discover = await discoverelementSchema.findByIdAndUpdate(
       req.params.id,
       req.body,
       {
@@ -90,7 +91,9 @@ discoversRoter.put("/:id", authorize, async (req, res, next) => {
 
 discoversRoter.delete("/:id", authorize, async (req, res, next) => {
   try {
-    const discover = await discoverSchema.findByIdAndDelete(req.params.id);
+    const discover = await discoverelementSchema.findByIdAndDelete(
+      req.params.id
+    );
     res.send(discover);
   } catch (error) {
     next(await errorHandler(error));
