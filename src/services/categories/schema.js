@@ -13,10 +13,7 @@ const CategorySchema = new Schema({
     type: String,
     required: true,
   },
-  icon: {
-    type: String,
-    required: true,
-  },
+
   pages: [{ page: { type: Schema.Types.ObjectId, ref: "Page" } }],
 });
 
