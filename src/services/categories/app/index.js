@@ -1,12 +1,12 @@
 import express from "express";
-import { authorize } from "../auth/middleware.js";
+import { authorize } from "../../auth/middleware.js";
 import appSchema from "./schema.js";
 
 import { CloudinaryStorage } from "multer-storage-cloudinary";
 import multer from "multer";
-import cloudinary from "../../cloudinary.js";
+import cloudinary from "../../../cloudinary.js";
 
-const applicationRoutes = express.Router();
+const appsRoutes = express.Router();
 
 const errorHandler = async (errorText, value, httpStatusCode) => {
   const err = new Error();
@@ -15,7 +15,7 @@ const errorHandler = async (errorText, value, httpStatusCode) => {
   return err;
 };
 
-applicationRoutes.post("/", authorize, async (req, res, next) => {
+appsRoutes.post("/", authorize, async (req, res, next) => {
   try {
     const newapp = new appSchema(req.body);
     newapp.save();
@@ -25,7 +25,7 @@ applicationRoutes.post("/", authorize, async (req, res, next) => {
   }
 });
 
-applicationRoutes.get("/", async (req, res, next) => {
+appsRoutes.get("/", async (req, res, next) => {
   try {
     // populate the categories with the pages
     let populatedCategories = await appSchema.find().populate("pages");
@@ -38,7 +38,7 @@ applicationRoutes.get("/", async (req, res, next) => {
   }
 });
 
-applicationRoutes.get("/:id", async (req, res, next) => {
+appsRoutes.get("/:id", async (req, res, next) => {
   try {
     const app = await appSchema.findById(req.params.id);
     res.send(app);
@@ -47,7 +47,7 @@ applicationRoutes.get("/:id", async (req, res, next) => {
   }
 });
 
-applicationRoutes.put("/:id", authorize, async (req, res, next) => {
+appsRoutes.put("/:id", authorize, async (req, res, next) => {
   try {
     const app = await appSchema.findByIdAndUpdate(req.params.id, req.body, {
       new: true,
@@ -58,7 +58,7 @@ applicationRoutes.put("/:id", authorize, async (req, res, next) => {
   }
 });
 
-applicationRoutes.delete("/:id", authorize, async (req, res, next) => {
+appsRoutes.delete("/:id", authorize, async (req, res, next) => {
   try {
     const app = await appSchema.findByIdAndDelete(req.params.id);
     res.send(app);
@@ -67,4 +67,4 @@ applicationRoutes.delete("/:id", authorize, async (req, res, next) => {
   }
 });
 
-export default applicationRoutes;
+export default appsRoutes;

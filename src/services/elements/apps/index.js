@@ -1,22 +1,21 @@
 import express from "express";
-import mongoose from "mongoose";
-import pageSchema from "./schema.js";
-import appSchema from "../apps/schema.js";
-import { authorize } from "../auth/middleware.js";
+import AppSchema from "./schema.js";
+import appsSchema from "../../categories/app/schema.js";
+import { authorize } from "../../auth/middleware.js";
 import { CloudinaryStorage } from "multer-storage-cloudinary";
 import multer from "multer";
-import cloudinary from "../../cloudinary.js";
+import cloudinary from "../../../cloudinary.js";
 
 const storage = new CloudinaryStorage({
   cloudinary,
   params: {
-    folder: "webStore",
+    folder: "webStoreApps",
   },
 });
 
 const cloudinaryMulter = multer({ storage });
 
-const pageRouter = express.Router();
+const appsRouter = express.Router();
 
 const errorHandler = async (errorText, value, httpStatusCode) => {
   const err = new Error();
@@ -25,25 +24,25 @@ const errorHandler = async (errorText, value, httpStatusCode) => {
   return err;
 };
 
-pageRouter.post("/:id", authorize, async (req, res, next) => {
+appsRouter.post("/:id", authorize, async (req, res, next) => {
   try {
-    const newPage = new pageSchema(req.body);
-    let ap = await appSchema.findById(req.params.id);
+    const newApp = new AppSchema(req.body);
+    let ap = await appsSchema.findById(req.params.id);
     let app = appSchema.findByIdAndUpdate(
       req.params.id,
-      ap.pages.push(newPage._id)
+      ap.apps.push(newApp._id)
     );
 
     app.save();
-    newPage.save();
-    res.status(201).send(newPage);
+    newApp.save();
+    res.status(201).send(newApp);
   } catch (error) {
     console.log(error);
     next(await errorHandler(error));
   }
 });
 
-pageRouter.post(
+appsRouter.post(
   "/picture",
   cloudinaryMulter.single("image"),
   async (req, res, next) => {
@@ -56,42 +55,42 @@ pageRouter.post(
   }
 );
 
-pageRouter.get("/", async (req, res, next) => {
+appsRouter.get("/", async (req, res, next) => {
   try {
-    const pages = await pageSchema.find();
-    res.send(pages);
+    const Apps = await appsSchema.find();
+    res.send(Apps);
   } catch (error) {
     next(await errorHandler(error));
   }
 });
 
-pageRouter.get("/:id", async (req, res, next) => {
+appsRouter.get("/:id", async (req, res, next) => {
   try {
-    const page = await pageSchema.findById(req.params.id);
-    res.send(page);
+    const App = await appsSchema.findById(req.params.id);
+    res.send(App);
   } catch (error) {
     next(await errorHandler(error));
   }
 });
 
-pageRouter.put("/:id", authorize, async (req, res, next) => {
+appsRouter.put("/:id", authorize, async (req, res, next) => {
   try {
-    const page = await pageSchema.findByIdAndUpdate(req.params.id, req.body, {
+    const App = await appsSchema.findByIdAndUpdate(req.params.id, req.body, {
       new: true,
     });
-    res.send(page);
+    res.send(App);
   } catch (error) {
     next(await errorHandler(error));
   }
 });
 
-pageRouter.delete("/:id", authorize, async (req, res, next) => {
+appsRouter.delete("/:id", authorize, async (req, res, next) => {
   try {
-    const page = await pageSchema.findByIdAndDelete(req.params.id);
-    res.send(page);
+    const App = await appsSchema.findByIdAndDelete(req.params.id);
+    res.send(App);
   } catch (error) {
     next(await errorHandler(error));
   }
 });
 
-export default pageRouter;
+export default appsRouter;

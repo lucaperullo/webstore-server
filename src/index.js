@@ -5,11 +5,13 @@ import cors from "cors";
 import listEndpoints from "express-list-endpoints";
 import passport from "passport";
 import cookieParser from "cookie-parser";
-
 import usersRouter from "./services/users/index.js";
-import pageRouter from "./services/pages/index.js";
-
-import applicationRoutes from "./services/apps/index.js";
+import appsRoutes from "./services/categories/app/index.js";
+import gamesRoutes from "./services/categories/games/index.js";
+import discoversRoutes from "./services/categories/discover/index.js";
+import appsRouter from "./services/elements/apps/index.js";
+import gamesRouter from "./services/elements/games/index.js";
+import discoversRouter from "./services/elements/discovers/index.js";
 const server = express();
 const port = process.env.PORT || 3001;
 
@@ -42,8 +44,15 @@ server.use(loggerMiddleware);
 server.use(cookieParser());
 server.use(passport.initialize());
 server.use("/users", usersRouter);
-server.use("/pages", pageRouter);
-server.use("/applications", applicationRoutes);
+server.use("/category/apps", appsRoutes);
+server.use("/category/games", gamesRoutes);
+server.use("/category/discover", discoversRoutes);
+server.use("/elements/apps", appsRouter);
+server.use("/elements/games", gamesRouter);
+server.use("/elements/discover", discoversRouter);
+
+import gameRouter from "./services/elements/games/index.js";
+import discoversRoter from "./services/elements/discovers/index.js";
 
 console.table(listEndpoints(server));
 // server.use(errorHandler);

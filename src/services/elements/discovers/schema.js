@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-const pageSchema = new mongoose.Schema(
+const discoverSchema = new mongoose.Schema(
   {
     name: {
       type: String,
@@ -15,9 +15,9 @@ const pageSchema = new mongoose.Schema(
       default:
         "https://res.cloudinary.com/webstoreclouds/image/upload/v1662473365/webStore/ios-application-placeholder_n0ipc1.png",
     },
-    category: {
+    discover: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "Category", // this is the name of the model
+      ref: "Discovers", // this is the name of the model
     },
     likes: [
       {
@@ -32,4 +32,4 @@ const pageSchema = new mongoose.Schema(
   }
 );
 
-export default mongoose.model("Page", pageSchema);
+export default mongoose.model("Discover", discoverSchema);

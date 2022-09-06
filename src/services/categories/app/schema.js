@@ -13,7 +13,7 @@ const appSchema = new Schema({
     type: String,
     required: true,
   },
-  pages: [{ type: Schema.Types.ObjectId, ref: "Page" }],
+  apps: [{ type: Schema.Types.ObjectId, ref: "App" }],
 });
 
 export default mongoose.model("Apps", appSchema);
