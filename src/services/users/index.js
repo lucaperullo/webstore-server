@@ -63,6 +63,20 @@ usersRouter.post("/login", async (req, res, next) => {
     next(error);
   }
 });
+
+// logout to clean the cookies
+usersRouter.get("/logout", async (req, res, next) => {
+  try {
+    res
+      .clearCookie("accessToken")
+      .clearCookie("refreshToken")
+      .status(200)
+      .send({ message: "logout successful" });
+  } catch (error) {
+    next(error);
+  }
+});
+
 // tested
 usersRouter.get("/refreshToken", async (req, res, next) => {
   try {
