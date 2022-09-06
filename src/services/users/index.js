@@ -65,7 +65,7 @@ usersRouter.post("/login", async (req, res, next) => {
 });
 
 // logout to clean the cookies
-usersRouter.get("/logout", async (req, res, next) => {
+usersRouter.post("/logout", async (req, res, next) => {
   try {
     res
       .clearCookie("accessToken")
