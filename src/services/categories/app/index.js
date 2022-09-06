@@ -28,7 +28,7 @@ appsRoutes.post("/", authorize, async (req, res, next) => {
 appsRoutes.get("/", async (req, res, next) => {
   try {
     // populate the categories with the pages
-    let populatedCategories = await appSchema.find().populate("pages");
+    let populatedCategories = await appsSchema.find().populate("apps");
 
     res.send(populatedCategories);
   } catch (error) {

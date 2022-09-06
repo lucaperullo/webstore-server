@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-const pageSchema = new mongoose.Schema(
+const appSchema = new mongoose.Schema(
   {
     name: {
       type: String,
@@ -32,4 +32,4 @@ const pageSchema = new mongoose.Schema(
   }
 );
 
-export default mongoose.model("App", pageSchema);
+export default mongoose.model("App", appSchema);

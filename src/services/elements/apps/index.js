@@ -1,5 +1,5 @@
 import express from "express";
-import AppSchema from "./schema.js";
+import appSchema from "./schema.js";
 import appsSchema from "../../categories/app/schema.js";
 import { authorize } from "../../auth/middleware.js";
 import { CloudinaryStorage } from "multer-storage-cloudinary";
@@ -26,14 +26,14 @@ const errorHandler = async (errorText, value, httpStatusCode) => {
 
 appsRouter.post("/:id", authorize, async (req, res, next) => {
   try {
-    const newApp = new AppSchema(req.body);
-    let ap = await appsSchema.findById(req.params.id);
-    let app = appSchema.findByIdAndUpdate(
+    const newApp = new appsSchema(req.body);
+    let ap = await appSchema.findById(req.params.id);
+    let app = appsSchema.findByIdAndUpdate(
       req.params.id,
       ap.apps.push(newApp._id)
     );
 
-    app.save();
+    console.log(app);
     newApp.save();
     res.status(201).send(newApp);
   } catch (error) {

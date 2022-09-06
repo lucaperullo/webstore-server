@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 
 const Schema = mongoose.Schema;
 
-const gameSchema = new Schema({
+const gamesSchema = new Schema({
   name: {
     type: String,
     required: true,
@@ -16,4 +16,4 @@ const gameSchema = new Schema({
   games: [{ type: Schema.Types.ObjectId, ref: "Game" }],
 });
 
-export default mongoose.model("Games", gameSchema);
+export default mongoose.model("Games", gamesSchema);
