@@ -47,13 +47,11 @@ usersRouter.post("/login", async (req, res, next) => {
       res.cookie("accessToken", tokens.token, {
         sameSite: process.env.NODE_ENV === "production" ? "None" : "Lax",
         secure: process.env.NODE_ENV === "production" ? true : false,
-        httpOnly: process.env.NODE_ENV === "production" ? true : false,
       });
       res
         .cookie("refreshToken", tokens.refreshToken, {
           sameSite: process.env.NODE_ENV === "production" ? "None" : "Lax",
           secure: process.env.NODE_ENV === "production" ? true : false,
-          httpOnly: process.env.NODE_ENV === "production" ? true : false,
         })
         .status(200)
         .send({ message: "login successful", user });
