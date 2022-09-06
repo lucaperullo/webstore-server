@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 
 const Schema = mongoose.Schema;
 
-const CategorySchema = new Schema({
+const appSchema = new Schema({
   name: {
     type: String,
     required: true,
@@ -13,8 +13,7 @@ const CategorySchema = new Schema({
     type: String,
     required: true,
   },
-
   pages: [{ type: Schema.Types.ObjectId, ref: "Page" }],
 });
 
-export default mongoose.model("Category", CategorySchema);
+export default mongoose.model("Apps", appSchema);

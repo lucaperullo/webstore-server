@@ -8,7 +8,8 @@ import cookieParser from "cookie-parser";
 
 import usersRouter from "./services/users/index.js";
 import pageRouter from "./services/pages/index.js";
-import categoriesRouter from "./services/categories/index.js";
+
+import applicationRoutes from "./services/apps/index.js";
 const server = express();
 const port = process.env.PORT || 3001;
 
@@ -17,7 +18,12 @@ const loggerMiddleware = (req, res, next) => {
   next();
 };
 
-const whitelist = ["https://webstorecloud.vercel.app", "*", undefined];
+const whitelist = [
+  "https://webstorecloud.vercel.app",
+  "*",
+  undefined,
+  "http://localhost:5173",
+];
 const corsOptions = {
   origin: function (origin, next) {
     console.log("ORIGIN --> ", origin);
@@ -37,7 +43,7 @@ server.use(cookieParser());
 server.use(passport.initialize());
 server.use("/users", usersRouter);
 server.use("/pages", pageRouter);
-server.use("/categories", categoriesRouter);
+server.use("/applications", applicationRoutes);
 
 console.table(listEndpoints(server));
 // server.use(errorHandler);

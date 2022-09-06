@@ -2,11 +2,11 @@ import mongoose from "mongoose";
 
 const pageSchema = new mongoose.Schema(
   {
-    title: {
+    name: {
       type: String,
       required: [true, "Please provide a title"],
     },
-    content: {
+    description: {
       type: String,
       required: [true, "Please provide a content"],
     },
@@ -18,7 +18,6 @@ const pageSchema = new mongoose.Schema(
     category: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Category", // this is the name of the model
-      required: [true, "Please provide a category"],
     },
     likes: [
       {
