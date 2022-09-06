@@ -1,6 +1,7 @@
 import express from "express";
 import mongoose from "mongoose";
 import pageSchema from "./schema.js";
+import CategorySchema from "../categories/schema.js";
 import { authorize } from "../auth/middleware.js";
 import { CloudinaryStorage } from "multer-storage-cloudinary";
 import multer from "multer";
@@ -27,9 +28,17 @@ const errorHandler = async (errorText, value, httpStatusCode) => {
 pageRouter.post("/", authorize, async (req, res, next) => {
   try {
     const newPage = new pageSchema(req.body);
-
+    let cat = await CategorySchema.findById(req.body.category);
+    let category = CategorySchema.findByIdAndUpdate(
+      req.body.category,
+      cat.pages.push(newPage._id)
+    );
+    console.log(category);
+    cat.save();
+    newPage.save();
     res.status(201).send(newPage);
   } catch (error) {
+    console.log(error);
     next(await errorHandler(error));
   }
 });

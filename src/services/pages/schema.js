@@ -12,11 +12,12 @@ const pageSchema = new mongoose.Schema(
     },
     image: {
       type: String,
-      required: [true, "Please provide an image"],
+      default:
+        "https://res.cloudinary.com/webstoreclouds/image/upload/v1662473365/webStore/ios-application-placeholder_n0ipc1.png",
     },
     category: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "categories", // this is the name of the model
+      ref: "Category", // this is the name of the model
       required: [true, "Please provide a category"],
     },
     likes: [
@@ -32,4 +33,4 @@ const pageSchema = new mongoose.Schema(
   }
 );
 
-export default mongoose.model("pages", pageSchema);
+export default mongoose.model("Page", pageSchema);

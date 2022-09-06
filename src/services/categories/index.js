@@ -17,6 +17,7 @@ const errorHandler = async (errorText, value, httpStatusCode) => {
 categoriesRouter.post("/", authorize, async (req, res, next) => {
   try {
     const newCategory = new CategorySchema(req.body);
+    newCategory.save();
     res.status(201).send(newCategory);
   } catch (error) {
     next(await errorHandler(error));
@@ -25,9 +26,13 @@ categoriesRouter.post("/", authorize, async (req, res, next) => {
 
 categoriesRouter.get("/", authorize, async (req, res, next) => {
   try {
-    const categories = await CategorySchema.find();
-    res.send(categories);
+    // populate the categories with the pages
+    let populatedCategories = await CategorySchema.find().populate("pages");
+
+    res.send(populatedCategories);
   } catch (error) {
+    console.log(error);
+    res.send({ message: error.message });
     next(await errorHandler(error));
   }
 });
