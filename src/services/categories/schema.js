@@ -14,7 +14,7 @@ const CategorySchema = new Schema({
     required: true,
   },
 
-  pages: [{ page: { type: Schema.Types.ObjectId, ref: "Page" } }],
+  pages: [{ type: Schema.Types.ObjectId, ref: "Page" }],
 });
 
 export default mongoose.model("Category", CategorySchema);
