@@ -73,6 +73,7 @@ usersRouter.post("/logout", async (req, res, next) => {
       .status(200)
       .send({ message: "logout successful" });
   } catch (error) {
+    res.send({ message: error });
     next(error);
   }
 });
