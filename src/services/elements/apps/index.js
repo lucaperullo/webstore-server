@@ -44,8 +44,6 @@ appsRouter.post("/multiple/:id", authorize, async (req, res, next) => {
     const newapps = req.body.map((app) => new appelementSchema(app));
     console.log(newapps, "newapps");
     let app = await appsSchema.findById(req.params.id);
-    console.log(app, "this is the app");
-
     newapps.forEach((ap) => app.apps.push(ap._id));
     console.log(app);
     app.save();
