@@ -22,7 +22,7 @@ const loggerMiddleware = (req, res, next) => {
 
 const whitelist = [
   "https://webstorecloud.vercel.app",
-  "*",
+  "https://www.webstorecloud.it",
   undefined,
   "http://localhost:5173",
 ];

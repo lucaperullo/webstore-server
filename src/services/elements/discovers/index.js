@@ -43,6 +43,26 @@ discoversRoter.post("/:id", authorize, async (req, res, next) => {
   }
 });
 
+// post a list of discovers
+discoversRoter.post("/multiple/:id", authorize, async (req, res, next) => {
+  try {
+    // req.body is an array of discovers
+    const newdiscovers = req.body.map(
+      (discover) => new discoverelementSchema(discover)
+    );
+    let disc = await discoversSchema.findById(req.params.id);
+
+    newdiscovers.forEach((discover) => disc.discoverz.push(discover._id));
+    disc.save();
+    // save the discovers
+    newdiscovers.forEach((discover) => discover.save());
+    res.status(201).send(newdiscovers);
+  } catch (error) {
+    console.log(error);
+    next(await errorHandler(error));
+  }
+});
+
 discoversRoter.post(
   "/picture",
   cloudinaryMulter.single("image"),

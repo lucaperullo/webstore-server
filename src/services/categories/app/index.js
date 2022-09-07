@@ -2,10 +2,6 @@ import express from "express";
 import { authorize } from "../../auth/middleware.js";
 import appsSchema from "./schema.js";
 
-import { CloudinaryStorage } from "multer-storage-cloudinary";
-import multer from "multer";
-import cloudinary from "../../../cloudinary.js";
-
 const appsRoutes = express.Router();
 
 const errorHandler = async (errorText, value, httpStatusCode) => {

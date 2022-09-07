@@ -27,15 +27,31 @@ const errorHandler = async (errorText, value, httpStatusCode) => {
 gamesRouter.post("/:id", authorize, async (req, res, next) => {
   try {
     const newgame = new gameelementSchema(req.body);
-    let ap = await gamesSchema.findById(req.params.id);
-    let game = gameelementSchema.findByIdAndUpdate(
+    let game = await gamesSchema.findById(req.params.id);
+    await gameelementSchema.findByIdAndUpdate(
       req.params.id,
-      ap.games.push(newgame._id)
+      game.games.push(newgame._id)
     );
 
     game.save();
     newgame.save();
     res.status(201).send(newgame);
+  } catch (error) {
+    console.log(error);
+    next(await errorHandler(error));
+  }
+});
+
+gamesRouter.post("/multiple/:id", authorize, async (req, res, next) => {
+  try {
+    const newgames = req.body.map((game) => new gameelementSchema(game));
+
+    let game = await gamesSchema.findById(req.params.id);
+
+    newgames.forEach((game) => game.games.push(game._id));
+    game.save();
+    newgames.forEach((game) => game.save());
+    res.status(201).send(newgames);
   } catch (error) {
     console.log(error);
     next(await errorHandler(error));

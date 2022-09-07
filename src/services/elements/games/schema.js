@@ -15,6 +15,10 @@ const gameelementSchema = new mongoose.Schema(
       default:
         "https://res.cloudinary.com/webstoreclouds/image/upload/v1662473365/webStore/ios-application-placeholder_n0ipc1.png",
     },
+    url: {
+      type: String,
+      required: [true, "Please provide a link"],
+    },
     game: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Games", // this is the name of the model
