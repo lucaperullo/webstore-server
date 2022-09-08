@@ -38,7 +38,9 @@ discoversRoutes.get("/", async (req, res, next) => {
 
 discoversRoutes.get("/:id", async (req, res, next) => {
   try {
-    const discover = await discoversSchema.findById(req.params.id);
+    const discover = await discoversSchema
+      .findById(req.params.id)
+      .populate("discoverz");
     res.send(discover);
   } catch (error) {
     next(await errorHandler(error));

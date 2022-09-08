@@ -36,7 +36,7 @@ gamesRoutes.get("/", async (req, res, next) => {
 
 gamesRoutes.get("/:id", async (req, res, next) => {
   try {
-    const game = await gamesSchema.findById(req.params.id);
+    const game = await gamesSchema.findById(req.params.id).populate("games");
     res.send(game);
   } catch (error) {
     next(await errorHandler(error));

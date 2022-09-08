@@ -16,6 +16,7 @@ appsRoutes.post("/", authorize, async (req, res, next) => {
     const newapp = new appsSchema(req.body);
     newapp.save();
     res.status(201).send(newapp);
+    s;
   } catch (error) {
     next(await errorHandler(error));
   }
@@ -36,7 +37,7 @@ appsRoutes.get("/", async (req, res, next) => {
 
 appsRoutes.get("/:id", async (req, res, next) => {
   try {
-    const app = await appsSchema.findById(req.params.id);
+    const app = await appsSchema.findById(req.params.id).populate("apps");
     res.send(app);
   } catch (error) {
     next(await errorHandler(error));
