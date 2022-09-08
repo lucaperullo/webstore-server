@@ -110,4 +110,18 @@ appsRouter.delete("/:id", authorize, async (req, res, next) => {
   }
 });
 
+appsRouter.get("/add-field/1", async (req, res, next) => {
+  try {
+    const Apps = await appelementSchema.find();
+    Apps.forEach(async (app) => {
+      app.path = "apps";
+      app.save();
+    });
+    res.send(Apps);
+  } catch (error) {
+    console.log(error.message);
+    next();
+  }
+});
+
 export default appsRouter;

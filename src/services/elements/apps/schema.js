@@ -23,6 +23,10 @@ const appelementSchema = new mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: "Apps", // this is the name of the model
     },
+    path: {
+      type: String,
+      default: "apps",
+    },
     likes: [
       {
         type: mongoose.Schema.Types.ObjectId,

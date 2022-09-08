@@ -8,6 +8,10 @@ const appsSchema = new Schema({
     required: true,
     unique: true,
   },
+  type: {
+    type: String,
+    default: "apps",
+  },
 
   description: {
     type: String,

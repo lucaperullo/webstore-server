@@ -8,7 +8,10 @@ const discoversSchema = new Schema({
     required: true,
     unique: true,
   },
-
+  type: {
+    type: String,
+    default: "discover",
+  },
   description: {
     type: String,
     required: true,

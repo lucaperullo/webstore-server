@@ -12,6 +12,7 @@ import discoversRoutes from "./services/categories/discover/index.js";
 import appsRouter from "./services/elements/apps/index.js";
 import gamesRouter from "./services/elements/games/index.js";
 import discoversRouter from "./services/elements/discovers/index.js";
+import searchRouter from "./services/search/index.js";
 const server = express();
 const port = process.env.PORT || 3001;
 
@@ -50,9 +51,7 @@ server.use("/category/discover", discoversRoutes);
 server.use("/elements/apps", appsRouter);
 server.use("/elements/games", gamesRouter);
 server.use("/elements/discover", discoversRouter);
-
-import gameRouter from "./services/elements/games/index.js";
-import discoversRoter from "./services/elements/discovers/index.js";
+server.use("/search", searchRouter);
 
 console.table(listEndpoints(server));
 // server.use(errorHandler);

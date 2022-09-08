@@ -8,7 +8,10 @@ const gamesSchema = new Schema({
     required: true,
     unique: true,
   },
-
+  type: {
+    type: String,
+    default: "games",
+  },
   description: {
     type: String,
     required: true,

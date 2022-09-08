@@ -19,6 +19,10 @@ const gameelementSchema = new mongoose.Schema(
       type: String,
       required: [true, "Please provide a link"],
     },
+    path: {
+      type: String,
+      default: "games",
+    },
     game: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Games", // this is the name of the model
