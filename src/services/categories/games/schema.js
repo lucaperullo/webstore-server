@@ -6,7 +6,6 @@ const gamesSchema = new Schema({
   name: {
     type: String,
     required: true,
-    unique: true,
   },
   type: {
     type: String,
