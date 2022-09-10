@@ -44,14 +44,19 @@ paidsRouter.post("/:id", authorize, async (req, res, next) => {
 
 paidsRouter.post("/multiple/:id", authorize, async (req, res, next) => {
   try {
-    const newpaids = req.body.map((paid) => new paidelementSchema(paid));
-
     let paid = await paidsSchema.findById(req.params.id);
 
-    newpaids.forEach((gam) => paid.paids.push(gam._id));
+    await req.body.map(async (pai) => {
+      let p = new paidelementSchema(pai);
+      paid.paids.push(p._id);
+      p.set({ paid: paid._id });
+      console.log(p);
+      await p.save();
+    });
+
     paid.save();
-    newpaids.forEach((paid) => paid.save());
-    res.status(201).send(newpaids);
+
+    res.status(201).send(paid);
   } catch (error) {
     console.log(error);
     next(await errorHandler(error));

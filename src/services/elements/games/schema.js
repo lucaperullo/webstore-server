@@ -5,6 +5,7 @@ const gameelementSchema = new mongoose.Schema(
     name: {
       type: String,
       required: [true, "Please provide a title"],
+      unique: true,
     },
     description: {
       type: String,
@@ -14,6 +15,7 @@ const gameelementSchema = new mongoose.Schema(
       type: String,
       default:
         "https://res.cloudinary.com/webstoreclouds/image/upload/v1662473365/webStore/ios-application-placeholder_n0ipc1.png",
+      unique: true,
     },
     url: {
       type: String,

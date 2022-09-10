@@ -41,14 +41,19 @@ appsRouter.post("/:id", authorize, async (req, res, next) => {
 
 appsRouter.post("/multiple/:id", authorize, async (req, res, next) => {
   try {
-    const newapps = req.body.map((app) => new appelementSchema(app));
-    console.log(newapps, "newapps");
     let app = await appsSchema.findById(req.params.id);
-    newapps.forEach((ap) => app.apps.push(ap._id));
-    console.log(app);
+
+    await req.body.map(async (ap) => {
+      let a = new appelementSchema(ap);
+      app.apps.push(a._id);
+      a.set({ app: app._id });
+      console.log(a);
+      await a.save();
+    });
+
     app.save();
-    newapps.forEach((app) => app.save());
-    res.status(201).send(newapps);
+
+    res.status(201).send(app);
   } catch (error) {
     console.log(error);
     next(await errorHandler(error));
@@ -107,20 +112,6 @@ appsRouter.delete("/:id", authorize, async (req, res, next) => {
     res.send(App);
   } catch (error) {
     next(await errorHandler(error));
-  }
-});
-
-appsRouter.get("/add-field/1", async (req, res, next) => {
-  try {
-    const Apps = await appelementSchema.find();
-    Apps.forEach(async (app) => {
-      app.path = "apps";
-      app.save();
-    });
-    res.send(Apps);
-  } catch (error) {
-    console.log(error.message);
-    next();
   }
 });
 

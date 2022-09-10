@@ -44,14 +44,19 @@ gamesRouter.post("/:id", authorize, async (req, res, next) => {
 
 gamesRouter.post("/multiple/:id", authorize, async (req, res, next) => {
   try {
-    const newgames = req.body.map((game) => new gameelementSchema(game));
-
     let game = await gamesSchema.findById(req.params.id);
 
-    newgames.forEach((gam) => game.games.push(gam._id));
+    await req.body.map(async (gam) => {
+      let g = new gameelementSchema(gam);
+      game.games.push(g._id);
+      g.set({ game: game._id });
+      console.log(g);
+      await g.save();
+    });
+
     game.save();
-    newgames.forEach((game) => game.save());
-    res.status(201).send(newgames);
+
+    res.status(201).send(game);
   } catch (error) {
     console.log(error);
     next(await errorHandler(error));

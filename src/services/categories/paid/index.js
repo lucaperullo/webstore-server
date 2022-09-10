@@ -56,11 +56,19 @@ paidsRoutes.put("/:id", authorize, async (req, res, next) => {
 
 paidsRoutes.delete("/:id", authorize, async (req, res, next) => {
   try {
+    // const paid = await paidsSchema.findByIdAndDelete(req.params.id);
+    const paidsFromCategory = await paidelementSchema.find({
+      paid: req.params.id,
+    });
+    paidsFromCategory.forEach(async (paid) => {
+      const gam = await paidelementSchema.findByIdAndDelete(paid._id);
+      gam.save();
+    });
     const paid = await paidsSchema.findByIdAndDelete(req.params.id);
+    paid.save();
     res.send(paid);
   } catch (error) {
     next(await errorHandler(error));
   }
 });
-
 export default paidsRoutes;

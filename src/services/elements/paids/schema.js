@@ -23,6 +23,11 @@ const paidelementSchema = new mongoose.Schema(
       type: String,
       default: "paids",
     },
+    price: {
+      type: String,
+      required: [true, "Please provide a price"],
+    },
+
     paid: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Paids", // this is the name of the model

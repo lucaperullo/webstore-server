@@ -1,6 +1,7 @@
 import express from "express";
 import { authorize } from "../../auth/middleware.js";
 import discoversSchema from "./schema.js";
+import discoverelementSchema from "../../elements/discovers/schema.js";
 
 const discoversRoutes = express.Router();
 
@@ -64,7 +65,16 @@ discoversRoutes.put("/:id", authorize, async (req, res, next) => {
 
 discoversRoutes.delete("/:id", authorize, async (req, res, next) => {
   try {
+    // const discover = await discoversSchema.findByIdAndDelete(req.params.id);
+    const discoversFromCategory = await discoverelementSchema.find({
+      discover: req.params.id,
+    });
+    discoversFromCategory.forEach(async (discover) => {
+      const gam = await discoverelementSchema.findByIdAndDelete(discover._id);
+      gam.save();
+    });
     const discover = await discoversSchema.findByIdAndDelete(req.params.id);
+    discover.save();
     res.send(discover);
   } catch (error) {
     next(await errorHandler(error));

@@ -58,11 +58,16 @@ gamesRoutes.put("/:id", authorize, async (req, res, next) => {
 gamesRoutes.delete("/:id", authorize, async (req, res, next) => {
   try {
     // const game = await gamesSchema.findByIdAndDelete(req.params.id);
-    const gamesFromCategory = await gameelementSchema.find();
-    console.log(gamesFromCategory);
-
-    res.send(gamesFromCategory);
-    // res.send(game);
+    const gamesFromCategory = await gameelementSchema.find({
+      game: req.params.id,
+    });
+    gamesFromCategory.forEach(async (game) => {
+      const gam = await gameelementSchema.findByIdAndDelete(game._id);
+      gam.save();
+    });
+    const game = await gamesSchema.findByIdAndDelete(req.params.id);
+    game.save();
+    res.send(game);
   } catch (error) {
     next(await errorHandler(error));
   }

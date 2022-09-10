@@ -1,6 +1,7 @@
 import express from "express";
 import { authorize } from "../../auth/middleware.js";
 import appsSchema from "./schema.js";
+import appelementSchema from "../../elements/apps/schema.js";
 
 const appsRoutes = express.Router();
 
@@ -57,7 +58,16 @@ appsRoutes.put("/:id", authorize, async (req, res, next) => {
 
 appsRoutes.delete("/:id", authorize, async (req, res, next) => {
   try {
+    // const app = await appsSchema.findByIdAndDelete(req.params.id);
+    const appsFromCategory = await appelementSchema.find({
+      app: req.params.id,
+    });
+    appsFromCategory.forEach(async (app) => {
+      const ap = await appelementSchema.findByIdAndDelete(app._id);
+      ap.save();
+    });
     const app = await appsSchema.findByIdAndDelete(req.params.id);
+    app.save();
     res.send(app);
   } catch (error) {
     next(await errorHandler(error));
