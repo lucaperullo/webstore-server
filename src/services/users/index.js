@@ -68,8 +68,14 @@ usersRouter.post("/login", async (req, res, next) => {
 usersRouter.post("/logout", async (req, res, next) => {
   try {
     res
-      .clearCookie("accessToken")
-      .clearCookie("refreshToken")
+      .clearCookie("accessToken", {
+        sameSite: process.env.NODE_ENV === "production" ? "None" : "Lax",
+        secure: process.env.NODE_ENV === "production" ? true : false,
+      })
+      .clearCookie("refreshToken", {
+        sameSite: process.env.NODE_ENV === "production" ? "None" : "Lax",
+        secure: process.env.NODE_ENV === "production" ? true : false,
+      })
       .status(200)
       .send({ message: "logout successful" });
   } catch (error) {

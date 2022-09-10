@@ -54,18 +54,7 @@ UserSchema.pre("save", async function (next) {
   }
   next();
 });
-// UserSchema.pre("findOneAndUpdate", async function (next) {
-//   const user = this.getUpdate();
 
-//   const current = await this.findOne({ email: user.email });
-//   if (user.password) {
-//     const isMatch = await bcrypt.compare(user.password, current.password);
-//     if (!isMatch) {
-//       user.password = await bcrypt.hash(user.password, 10);
-//     }
-//   }
-//   next();
-// });
 UserSchema.statics.findByCredentials = async function (email, password) {
   const user = await this.findOne({ email });
 

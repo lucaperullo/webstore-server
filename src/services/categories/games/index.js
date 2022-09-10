@@ -1,6 +1,7 @@
 import express from "express";
 import { authorize } from "../../auth/middleware.js";
 import gamesSchema from "./schema.js";
+import gameelementSchema from "../../elements/games/schema.js";
 
 const gamesRoutes = express.Router();
 
@@ -56,8 +57,12 @@ gamesRoutes.put("/:id", authorize, async (req, res, next) => {
 
 gamesRoutes.delete("/:id", authorize, async (req, res, next) => {
   try {
-    const game = await gamesSchema.findByIdAndDelete(req.params.id);
-    res.send(game);
+    // const game = await gamesSchema.findByIdAndDelete(req.params.id);
+    const gamesFromCategory = await gameelementSchema.find();
+    console.log(gamesFromCategory);
+
+    res.send(gamesFromCategory);
+    // res.send(game);
   } catch (error) {
     next(await errorHandler(error));
   }

@@ -12,8 +12,8 @@ passport.use(
       callbackURL: process.env.CLI_URL + "/users/facebookRedirect",
       profileFields: ["id", "displayName", "photos", "email"],
     },
-    async function (accessToken, refreshToken, profile, next) {
-      console.log(profile);
+    async function (profile, next) {
+   
       try {
         const user = await UserModel.findOne({
           email: profile.emails[0].value,
