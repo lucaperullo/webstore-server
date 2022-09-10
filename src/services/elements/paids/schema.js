@@ -21,7 +21,7 @@ const paidelementSchema = new mongoose.Schema(
     },
     path: {
       type: String,
-      default: "paids",
+      default: "paid",
     },
     price: {
       type: String,
