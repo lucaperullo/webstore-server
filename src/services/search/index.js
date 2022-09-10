@@ -55,13 +55,57 @@ searchRouter.get("/:query", async (req, res, next) => {
   }
 });
 
-searchRouter.get("/:query/:price", async (req, res, next) => {
+searchRouter.post("/:query/price", async (req, res, next) => {
   try {
+    const searchArray = [];
+    //  sort the results by price in ascending order if req.body is true and descending if false
     const paidelements = await paidelementSchema.find({
       name: { $regex: req.params.query, $options: "i" },
-      price: { $lte: req.params.price },
     });
-    res.send(paidelements);
+    const appelements = await appelementSchema.find({
+      name: { $regex: req.params.query, $options: "i" },
+    });
+    const discoverelements = await discoverelementSchema.find({
+      name: { $regex: req.params.query, $options: "i" },
+    });
+    const gameelements = await gameelementSchema.find({
+      name: { $regex: req.params.query, $options: "i" },
+    });
+
+    const paid = await paidsSchema.find({
+      name: { $regex: req.params.query, $options: "i" },
+    });
+    const apps = await appsSchema.find({
+      name: { $regex: req.params.query, $options: "i" },
+    });
+    const discovers = await discoversSchema.find({
+      name: { $regex: req.params.query, $options: "i" },
+    });
+    const games = await gamesSchema.find({
+      name: { $regex: req.params.query, $options: "i" },
+    });
+
+    if (req.body.priceHightoLow === true) {
+      paidelements.sort(
+        (a, b) => parseInt(a.price.slice(1)) - parseInt(b.price.slice(1))
+      );
+    } else if (req.body.priceHightoLow === false) {
+      paidelements.sort(
+        //
+        (a, b) => parseInt(b.price.slice(1)) - parseInt(a.price.slice(1))
+      );
+    }
+    searchArray.push(appelements, discoverelements, gameelements, paidelements);
+    res.send(
+      searchArray.reduce(
+        (acc, curr) =>
+          acc.concat(curr).sort(
+            // elements with a price first
+            (a, b) => (a.price ? -1 : 1)
+          ),
+        []
+      )
+    );
   } catch (error) {
     console.log(error);
     res.send({ message: error.message });
