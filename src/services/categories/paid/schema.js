@@ -9,7 +9,7 @@ const paidsSchema = new Schema({
   },
   type: {
     type: String,
-    default: "paids",
+    default: "paid",
   },
   likes: [
     {

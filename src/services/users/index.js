@@ -250,9 +250,9 @@ usersRouter.post("/favourites", authorize, async (req, res, next) => {
       favourites.sort(
         // apps and games first then categories
         (a, b) => {
-          if (a.type) {
+          if (a.path) {
             return -1;
-          } else if (b.path) {
+          } else if (b.type) {
             return 1;
           } else {
             return 0;
