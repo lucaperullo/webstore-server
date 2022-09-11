@@ -246,7 +246,20 @@ usersRouter.post("/favourites", authorize, async (req, res, next) => {
     });
 
     await Promise.all(element);
-    res.send(favourites);
+    res.send(
+      favourites.sort(
+        // apps and games first then categories
+        (a, b) => {
+          if (a.type) {
+            return -1;
+          } else if (b.path) {
+            return 1;
+          } else {
+            return 0;
+          }
+        }
+      )
+    );
   } catch (error) {
     console.log(error);
     next(error);
