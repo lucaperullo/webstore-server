@@ -11,7 +11,12 @@ const appsSchema = new Schema({
     type: String,
     default: "apps",
   },
-
+  likes: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: "users",
+    },
+  ],
   description: {
     type: String,
     required: true,

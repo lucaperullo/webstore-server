@@ -11,6 +11,12 @@ const discoversSchema = new Schema({
     type: String,
     default: "discover",
   },
+  likes: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: "users",
+    },
+  ],
   description: {
     type: String,
     required: true,

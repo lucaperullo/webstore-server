@@ -35,6 +35,25 @@ export const UserSchema = new mongoose.Schema(
       default: true,
       select: false,
     },
+    favourites: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref:
+          "AppElement" ||
+          "GameElement" ||
+          "DiscoverElement" ||
+          "PaidElement" ||
+          "Games" ||
+          "Apps" ||
+          "Discovers" ||
+          "Paids",
+      },
+    ],
+    role: {
+      type: String,
+      enum: ["user", "admin"],
+      default: "user",
+    },
     refreshTokens: [{ token: { type: String } }],
   },
   {

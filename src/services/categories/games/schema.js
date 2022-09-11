@@ -11,6 +11,13 @@ const gamesSchema = new Schema({
     type: String,
     default: "games",
   },
+  likes: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: "users",
+    },
+  ],
+
   description: {
     type: String,
     required: true,

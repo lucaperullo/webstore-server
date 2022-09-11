@@ -11,6 +11,12 @@ const paidsSchema = new Schema({
     type: String,
     default: "paids",
   },
+  likes: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: "users",
+    },
+  ],
   description: {
     type: String,
     required: true,

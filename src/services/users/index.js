@@ -1,5 +1,13 @@
 import express from "express";
-import bcrypt from "bcrypt";
+import discoversSchema from "../categories/discover/schema.js";
+import discoverelementSchema from "../elements/discovers/schema.js";
+import appsSchema from "../categories/app/schema.js";
+import appelementSchema from "../elements/apps/schema.js";
+import gamesSchema from "../categories/games/schema.js";
+import gameelementSchema from "../elements/games/schema.js";
+import paidsSchema from "../categories/paid/schema.js";
+import paidelementSchema from "../elements/paids/schema.js";
+
 import { authenticate, verifyJWT, refresh } from "../auth/tools.js";
 import UserSchema from "./schema.js";
 import { authorize } from "../auth/middleware.js";
@@ -163,6 +171,48 @@ usersRouter.get(
     } catch (error) {
       console.log(error);
       next(await errorHandler(error));
+    }
+  }
+);
+
+usersRouter.put(
+  "/like/:userId/:elementId",
+  authorize,
+  async (req, res, next) => {
+    //  toggle like or dislike by userId on elementId (app,game,paid,discover,paidElement,appElement,gameElement,discoverElement)
+    try {
+      const user = await UserSchema.findById(req.params.userId);
+      const element =
+        (await paidelementSchema.findById(req.params.elementId)) ||
+        (await appelementSchema.findById(req.params.elementId)) ||
+        (await gameelementSchema.findById(req.params.elementId)) ||
+        (await discoverelementSchema.findById(req.params.elementId)) ||
+        (await paidsSchema.findById(req.params.elementId)) ||
+        (await appsSchema.findById(req.params.elementId)) ||
+        (await gamesSchema.findById(req.params.elementId)) ||
+        (await discoversSchema.findById(req.params.elementId));
+      if (user && element) {
+        console.log(element);
+        if (user.favourites.includes(element._id)) {
+          user.favourites = user.favourites.filter(
+            (fav) => fav.toString() !== element._id.toString()
+          );
+          element.likes = element.likes.filter(
+            (like) => like.toString() !== user._id.toString()
+          );
+        } else {
+          user.favourites.push(element._id);
+          element.likes.push(user._id);
+        }
+        await user.save();
+        await element.save();
+        res.send(user);
+      } else {
+        res.status(404).send({ message: "user or element not found" });
+      }
+    } catch (error) {
+      console.log(error);
+      next(error);
     }
   }
 );
