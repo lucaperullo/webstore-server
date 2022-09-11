@@ -217,4 +217,40 @@ usersRouter.put(
   }
 );
 
+usersRouter.post("/favourites", authorize, async (req, res, next) => {
+  try {
+    // const element =
+    //     (await paidelementSchema.findById(req.params.elementId)) ||
+    //     (await appelementSchema.findById(req.params.elementId)) ||
+    //     (await gameelementSchema.findById(req.params.elementId)) ||
+    //     (await discoverelementSchema.findById(req.params.elementId)) ||
+    //     (await paidsSchema.findById(req.params.elementId)) ||
+    //     (await appsSchema.findById(req.params.elementId)) ||
+    //     (await gamesSchema.findById(req.params.elementId)) ||
+    //   (await discoversSchema.findById(req.params.elementId));
+    let favourites = [];
+    const element = req.body.map(async (e) => {
+      console.log(e);
+      let fav =
+        (await paidelementSchema.findById(e)) ||
+        (await appelementSchema.findById(e)) ||
+        (await gameelementSchema.findById(e)) ||
+        (await discoverelementSchema.findById(e)) ||
+        (await paidsSchema.findById(e).populate("paids")) ||
+        (await appsSchema.findById(e).populate("apps")) ||
+        (await gamesSchema.findById(e).populate("games")) ||
+        (await discoversSchema.findById(e).populate("discoverz"));
+      if (fav) {
+        favourites.push(fav);
+      }
+    });
+
+    await Promise.all(element);
+    res.send(favourites);
+  } catch (error) {
+    console.log(error);
+    next(error);
+  }
+});
+
 export default usersRouter;
