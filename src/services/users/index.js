@@ -206,7 +206,7 @@ usersRouter.put(
         }
         await user.save();
         await element.save();
-        res.send(user);
+        res.send({ user, element });
       } else {
         res.status(404).send({ message: "user or element not found" });
       }
