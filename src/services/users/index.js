@@ -70,9 +70,9 @@ usersRouter.post("/login", async (req, res, next) => {
         res.header("Content-Security-Policy", "upgrade-insecure-requests")
         res.header("Access-Control-Allow-Credentials", "true")
 
-        res.send({ message: "login successful" });
+        res.send({ message: "login successful",user });
     } else {
-      res.status(404).send({ message: "login failed", user });
+      res.status(404).send({ message: "login failed" });
     }
   } catch (error) {
     res.send({ message: error });
