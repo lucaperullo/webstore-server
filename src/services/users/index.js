@@ -62,11 +62,13 @@ usersRouter.post("/login", async (req, res, next) => {
           secure: process.env.NODE_ENV === "production" ? true : false,
         })
         .status(200)
-        .setHeader("Content-Security-Policy", "upgrade-insecure-requests")
-        .setHeader("Access-Control-Allow-Credentials", "true")
-        .send({ message: "login successful", user });
+       
+        res.header("Content-Security-Policy", "upgrade-insecure-requests")
+        res.header("Access-Control-Allow-Credentials", "true")
+
+        res.send({ message: "login successful" });
     } else {
-      res.status(404).send({ message: "login failed" });
+      res.status(404).send({ message: "login failed", user });
     }
   } catch (error) {
     res.send({ message: error });
