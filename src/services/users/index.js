@@ -54,12 +54,16 @@ usersRouter.post("/login", async (req, res, next) => {
       const tokens = await authenticate(user);
       res
         .cookie("accessToken", tokens.token, {
-          sameSite: process.env.NODE_ENV === "production" ? "None" : "Lax",
-          secure: process.env.NODE_ENV === "production" ? true : false,
+          // sameSite: process.env.NODE_ENV === "production" ? "None" : "Lax",
+          // secure: process.env.NODE_ENV === "production" ? true : false,
+          sameSite:"none",
+          secure:true
         })
         .cookie("refreshToken", tokens.refreshToken, {
-          sameSite: process.env.NODE_ENV === "production" ? "None" : "Lax",
-          secure: process.env.NODE_ENV === "production" ? true : false,
+          // sameSite: process.env.NODE_ENV === "production" ? "None" : "Lax",
+          // secure: process.env.NODE_ENV === "production" ? true : false,
+          sameSite:"none",
+          secure:true
         })
         .status(200)
        
