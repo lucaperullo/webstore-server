@@ -23,9 +23,21 @@ const loggerMiddleware = (req, res, next) => {
   next();
 };
 
-
+const whitelist = [
+  "https://webstorecloud.vercel.app",
+  "https://www.webstorecloud.it",
+  undefined,
+  "http://localhost:5173",
+];
 const corsOptions = {
-  origin: "*",
+  origin: function (origin, next) {
+    console.log("ORIGIN --> ", origin);
+    if (whitelist.indexOf(origin) !== -1) {
+      next(null, true);
+    } else {
+      next(new Error("NOT ALLOWED - CORS ISSUES"));
+    }
+  },
   credentials: true,
 };
 
