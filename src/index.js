@@ -15,7 +15,7 @@ import discoversRouter from "./services/elements/discovers/index.js";
 import searchRouter from "./services/search/index.js";
 import paidsRoutes from "./services/categories/paid/index.js";
 import paidsRouter from "./services/elements/paids/index.js";
-import { badRequest, catchAllHandler, errorHandler, forbidden, notFound, unauthorized } from "./utilities/errorHandler.js";
+
 const server = express();
 const port = process.env.PORT || 3001;
 
@@ -26,7 +26,7 @@ const loggerMiddleware = (req, res, next) => {
 
 const whitelist = [
 
-  "https://www.webstorecloud.it",
+  "https://www.webstorecloud.it/",
   
 ];
 const corsOptions = {
@@ -45,12 +45,6 @@ server.use(cors(corsOptions));
 server.use(express.json());
 server.use(loggerMiddleware);
 server.use(cookieParser());
-server.use(errorHandler());
-server.use(notFound())
-server.use(catchAllHandler())
-server.use(unauthorized())
-server.use(forbidden())
-server.use(badRequest())
 
 server.use(passport.initialize());
 server.use("/users", usersRouter);
