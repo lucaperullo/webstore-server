@@ -15,7 +15,6 @@ import discoversRouter from "./services/elements/discovers/index.js";
 import searchRouter from "./services/search/index.js";
 import paidsRoutes from "./services/categories/paid/index.js";
 import paidsRouter from "./services/elements/paids/index.js";
-
 const server = express();
 const port = process.env.PORT || 3001;
 
@@ -24,9 +23,21 @@ const loggerMiddleware = (req, res, next) => {
   next();
 };
 
-
+const whitelist = [
+  "https://webstorecloud.vercel.app",
+  "https://www.webstorecloud.it",
+  undefined,
+  "http://localhost:5173",
+];
 const corsOptions = {
-  origin:"https://www.webstorecloud.it/",
+  origin: function (origin, next) {
+    console.log("ORIGIN --> ", origin);
+    if (whitelist.indexOf(origin) !== -1) {
+      next(null, true);
+    } else {
+      next(new Error("NOT ALLOWED - CORS ISSUES"));
+    }
+  },
   credentials: true,
 };
 
@@ -34,7 +45,6 @@ server.use(cors(corsOptions));
 server.use(express.json());
 server.use(loggerMiddleware);
 server.use(cookieParser());
-
 server.use(passport.initialize());
 server.use("/users", usersRouter);
 server.use("/category/apps", appsRoutes);
@@ -48,6 +58,7 @@ server.use("/elements/paid", paidsRouter);
 server.use("/search", searchRouter);
 
 console.table(listEndpoints(server));
+// server.use(errorHandler);
 mongoose.connect(process.env.MONGO_CONNECT).then(
   server.listen(port, () => {
     console.log("Server is flying on port: ", port);
