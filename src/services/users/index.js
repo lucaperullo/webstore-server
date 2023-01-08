@@ -52,16 +52,18 @@ usersRouter.post("/login", async (req, res, next) => {
     console.log(user);
     if (user) {
       const tokens = await authenticate(user);
-      res.cookie("accessToken", tokens.token, {
-        sameSite: process.env.NODE_ENV === "production" ? "None" : "Lax",
-        secure: process.env.NODE_ENV === "production" ? true : false,
-      });
       res
+        .cookie("accessToken", tokens.token, {
+          sameSite: process.env.NODE_ENV === "production" ? "None" : "Lax",
+          secure: process.env.NODE_ENV === "production" ? true : false,
+        })
         .cookie("refreshToken", tokens.refreshToken, {
           sameSite: process.env.NODE_ENV === "production" ? "None" : "Lax",
           secure: process.env.NODE_ENV === "production" ? true : false,
         })
         .status(200)
+        .setHeader("Content-Security-Policy", "upgrade-insecure-requests")
+        .setHeader("Access-Control-Allow-Credentials", "true")
         .send({ message: "login successful", user });
     } else {
       res.status(404).send({ message: "login failed" });
