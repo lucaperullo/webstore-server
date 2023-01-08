@@ -21,7 +21,8 @@ const generateJWT = (payload) =>
     jwt.sign(
       payload,
       process.env.JWT_SECRET,
-      { expiresIn: "7d" },
+    //  make it ios compatible 
+    { expiresIn : "12h" },
       (error, token) => {
         if (error) rej(error);
         res(token);
@@ -42,7 +43,7 @@ const generateRefreshToken = (payload) =>
     jwt.sign(
       payload,
       process.env.REFRESH_TOKEN_SECRET,
-      { expiresIn: "1 week" },
+      { expiresIn: "12h" },
       (err, token) => {
         if (err) rej(err);
         res(token);
