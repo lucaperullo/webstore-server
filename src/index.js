@@ -24,20 +24,9 @@ const loggerMiddleware = (req, res, next) => {
   next();
 };
 
-const whitelist = [
 
-  "https://www.webstorecloud.it/",
-  
-];
 const corsOptions = {
-  origin: function (origin, next) {
-    console.log("ORIGIN --> ", origin);
-    if (whitelist.indexOf(origin) !== -1) {
-      next(null, true);
-    } else {
-      next(new Error("NOT ALLOWED - CORS ISSUES"));
-    }
-  },
+  origin:"https://www.webstorecloud.it/",
   credentials: true,
 };
 
@@ -59,7 +48,6 @@ server.use("/elements/paid", paidsRouter);
 server.use("/search", searchRouter);
 
 console.table(listEndpoints(server));
-// server.use(errorHandler);
 mongoose.connect(process.env.MONGO_CONNECT).then(
   server.listen(port, () => {
     console.log("Server is flying on port: ", port);
