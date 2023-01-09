@@ -1,43 +1,110 @@
 <html>
-<head>
-  <title>Redirecting to webstorecloud.it</title>
-  <style>
-    body {
-      background-color: lightblue;
-      font-family: sans-serif;
-      text-align: center;
-    }
-    h1 {
-      color: navy;
-      font-size: 32px;
-      margin: 16px 0;
-    }
-    p {
-      color: gray;
-      font-size: 18px;
-      margin: 0;
-    }
-    .countdown {
-      color: red;
-      font-size: 24px;
-      font-weight: bold;
-      margin: 8px 0;
-    }
-  </style>
-</head>
-<body>
-  <h1>Redirecting to webstorecloud.it</h1>
-  <p>You will be redirected in <span id="countdown" class="countdown">5</span> seconds...</p>
-  <script>
-    var countdown = 5;
-    var countdownInterval = setInterval(function() {
-      countdown--;
-      document.getElementById("countdown").innerHTML = countdown;
-      if (countdown === 0) {
-        clearInterval(countdownInterval);
-        window.location.replace("https://www.webstorecloud.it");
-      }
-    }, 1000);
-  </script>
-</body>
-</html>
+    <head>
+      <title>Redirecting to webstorecloud.it</title>
+      <style>
+        body {
+          background-color: lightblue;
+          font-family: sans-serif;
+          text-align: center;
+          overflow: hidden;
+        }
+        h1 {
+          color: navy;
+          font-size: 32px;
+          margin: 16px 0;
+        }
+        p {
+          color: gray;
+          font-size: 18px;
+          margin: 0;
+        }
+        .countdown {
+          color: red;
+          font-size: 24px;
+          font-weight: bold;
+          margin: 8px 0;
+        }
+        @keyframes bg-animation {
+          from {
+            background-position: 0 0;
+          }
+          to {
+            background-position: 100% 0;
+          }
+        }
+        body::before {
+          content: "";
+          position: fixed;
+          top: 0;
+          right: 0;
+          bottom: 0;
+          left: 0;
+          background: linear-gradient(to right, lightblue, white);
+          background-size: 200% auto;
+          animation: bg-animation 10s linear infinite;
+        }
+        .particle {
+          position: absolute;
+          width: 10px;
+          height: 10px;
+          background-color: navy;
+          border-radius: 50%;
+        }
+      </style>
+    </head>
+    <body>
+      <h1>Redirecting to webstorecloud.it</h1>
+      <p>You will be redirected in <span id="countdown" class="countdown">5</span> seconds...</p>
+      <div id="particles-container"></div>
+      <script>
+        // Particle animation
+        function createParticle() {
+          var particle = document.createElement("div");
+          particle.classList.add("particle");
+          var x = Math.random() * window.innerWidth;
+          var y = Math.random() * window.innerHeight;
+          var vx = Math.random() * 10 - 5;
+          var vy = Math.random() * 10 - 5;
+          particle.style.left = x + "px";
+          particle.style.top = y + "px";
+          particle.style.opacity = 0;
+          particle.style.transform = "scale(0)";
+          document.getElementById("particles-container").appendChild(particle);
+          setTimeout(function() {
+            particle.style.opacity = 1;
+            particle.style.transform = "scale(1)";
+          }, 100);
+          setInterval(function() {
+            x += vx;
+            y += vy;
+            if (x < 0 || x > window.innerWidth) {
+              vx = -vx;
+            }
+            if (y < 0 || y > window.innerHeight) {
+              vy = -vy;
+            }
+            particle.style.left = x + "px";
+            particle.style.top = y + "px";
+            }, 1000 / 60);
+        }
+        for (var i = 0; i < 100; i++) {
+          createParticle();
+        }
+        // Countdown
+        var countdown = document.getElementById("countdown");
+        var count = parseInt(countdown.innerHTML);
+
+        function updateCountdown() {
+          count--;
+          countdown.innerHTML = count;
+          if (count > 0) {
+            setTimeout(updateCountdown, 1000);
+          } else {
+            window.location = "https://webstorecloud.it";
+          }
+        }
+        setTimeout(updateCountdown, 1000);
+        </script>
+    </body>
+    </html>
+    
