@@ -15,6 +15,7 @@ import discoversRouter from "./services/elements/discovers/index.js";
 import searchRouter from "./services/search/index.js";
 import paidsRoutes from "./services/categories/paid/index.js";
 import paidsRouter from "./services/elements/paids/index.js";
+import path from "path";
 const server = express();
 const port = process.env.PORT || 3001;
 
@@ -57,8 +58,8 @@ server.use("/elements/discover", discoversRouter);
 server.use("/elements/paid", paidsRouter);
 server.use("/search", searchRouter);
 server.get("/",(req, res) => {
-  console.log(req,"hello")
-  res.sendFile(__dirname + "/public/index.html");
+
+  res.sendFile(path.join(__dirname, "/public/index.html"));
 });
 //
 
