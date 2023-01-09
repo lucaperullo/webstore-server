@@ -1,13 +1,43 @@
-<!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Webstore Apis</title>
+  <title>Redirecting to webstorecloud.it</title>
+  <style>
+    body {
+      background-color: lightblue;
+      font-family: sans-serif;
+      text-align: center;
+    }
+    h1 {
+      color: navy;
+      font-size: 32px;
+      margin: 16px 0;
+    }
+    p {
+      color: gray;
+      font-size: 18px;
+      margin: 0;
+    }
+    .countdown {
+      color: red;
+      font-size: 24px;
+      font-weight: bold;
+      margin: 8px 0;
+    }
+  </style>
 </head>
 <body>
-    hi those are the apis
-    
+  <h1>Redirecting to webstorecloud.it</h1>
+  <p>You will be redirected in <span id="countdown" class="countdown">5</span> seconds...</p>
+  <script>
+    var countdown = 5;
+    var countdownInterval = setInterval(function() {
+      countdown--;
+      document.getElementById("countdown").innerHTML = countdown;
+      if (countdown === 0) {
+        clearInterval(countdownInterval);
+        window.location.replace("https://www.webstorecloud.it");
+      }
+    }, 1000);
+  </script>
 </body>
 </html>
