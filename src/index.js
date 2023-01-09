@@ -15,10 +15,15 @@ import discoversRouter from "./services/elements/discovers/index.js";
 import searchRouter from "./services/search/index.js";
 import paidsRoutes from "./services/categories/paid/index.js";
 import paidsRouter from "./services/elements/paids/index.js";
-import path from "path";
+import { fileURLToPath } from 'url';
+
+import path,{ dirname } from "path";
 const server = express();
 const port = process.env.PORT || 3001;
 
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 const loggerMiddleware = (req, res, next) => {
   console.log(`${req.method} ${req.url}`);
   next();
