@@ -1,109 +1,80 @@
 <html>
-    <head>
-      <title>Redirecting to webstorecloud.it</title>
-      <style>
-        body {
-          background-color: lightblue;
-          font-family: sans-serif;
-          text-align: center;
-          overflow: hidden;
-        }
-        h1 {
-          color: navy;
-          font-size: 32px;
-          margin: 16px 0;
-        }
-        p {
-          color: gray;
-          font-size: 18px;
-          margin: 0;
-        }
-        .countdown {
-          color: red;
-          font-size: 24px;
-          font-weight: bold;
-          margin: 8px 0;
-        }
-        @keyframes bg-animation {
-          from {
-            background-position: 0 0;
-          }
-          to {
-            background-position: 100% 0;
-          }
-        }
-        body::before {
-          content: "";
-          position: fixed;
-          top: 0;
-          right: 0;
-          bottom: 0;
-          left: 0;
-          background: linear-gradient(to right, rgb(7, 2, 27), rgb(0, 124, 177));
-          background-size: 200% auto;
-          animation: bg-animation 20s linear infinite;
-        }
-        .particle {
-          position: absolute;
-          width: 7px;
-          height: 7px;
-          background-color: rgba(249, 255, 195, 0.399);
-          border-radius: 50%;
-        }
-      </style>
-    </head>
-    <body>
-      <h1>Redirecting to webstorecloud.it</h1>
-      <p>You will be redirected in <span id="countdown" class="countdown">20</span> seconds...</p>
-      <div id="particles-container"></div>
-      <script>
-        // Particle animation
-        function createParticle() {
-          var particle = document.createElement("div");
-          particle.classList.add("particle");
-          var x = Math.random() * window.innerWidth;
-          var y = Math.random() * window.innerHeight;
-          var vx = Math.random() * 20 -10;
-          var vy = Math.random() * 20 -10;
-          particle.style.left = x + "px";
-          particle.style.top = y + "px";
-          particle.style.opacity = 0;
-          particle.style.transform = "scale(0)";
-          document.getElementById("particles-container").appendChild(particle);
-          setTimeout(function() {
-            particle.style.opacity = 1;
-            particle.style.transform = "scale(1)";
-          }, 100);
-          setInterval(function() {
-            x += vx;
-            y += vy;
-            if (x < 0 || x > window.innerWidth) {
-              vx = -vx;
-            }
-            if (y < 0 || y > window.innerHeight) {
-              vy = -vy;
-            }
-            particle.style.left = x + "px";
-            particle.style.top = y + "px";
-            }, 1000 / 60);
-        }
-        for (var i = 0; i < 100; i++) {
-          createParticle();
-        }
-        // Countdown
-        var countdown = document.getElementById("countdown");
-        var count = parseInt(countdown.innerHTML);
-
-        function updateCountdown() {
-          count--;
-          countdown.innerHTML = count;
-          if (count > 0) {
-            setTimeout(updateCountdown, 1000);
-          } else {
-            window.location = "https://webstorecloud.it";
-          }
-        }
-        setTimeout(updateCountdown, 1000);
-        </script>
-    </body>
-    </html>
+<head>
+  <title>Redirecting to webstorecloud.it</title>
+  <style>
+    body {
+      background-color: lightblue;
+      font-family: sans-serif;
+      text-align: center;
+      overflow: hidden;
+    }
+    h1 {
+      color: navy;
+      font-size: 32px;
+      margin: 16px 0;
+    }
+    p {
+      color: gray;
+      font-size: 18px;
+      margin: 0;
+    }
+    .countdown {
+      color: red;
+      font-size: 24px;
+      font-weight: bold;
+      margin: 8px 0;
+    }
+    .bomb {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 200px;
+      height: 200px;
+      background-image: url("https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/aa454069-1f38-4db1-a9e3-75d6b00c42e8/dewww5w-c62424b8-5032-41b1-87dc-8504d299ee2c.png/v1/fill/w_1280,h_1168,strp/pumpkin_bomb_green_goblin_png_by_akithefull_dewww5w-fullview.png?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7ImhlaWdodCI6Ijw9MTE2OCIsInBhdGgiOiJcL2ZcL2FhNDU0MDY5LTFmMzgtNGRiMS1hOWUzLTc1ZDZiMDBjNDJlOFwvZGV3d3c1dy1jNjI0MjRiOC01MDMyLTQxYjEtODdkYy04NTA0ZDI5OWVlMmMucG5nIiwid2lkdGgiOiI8PTEyODAifV1dLCJhdWQiOlsidXJuOnNlcnZpY2U6aW1hZ2Uub3BlcmF0aW9ucyJdfQ.VS8NMs7BMg3XR-H_NiKnPuWZ2w3vEmCa2ak3OLIZ0H0");
+      background-size: cover;
+      animation: bomb-animation 5s linear infinite;
+    }
+    @keyframes bomb-animation {
+      0% {
+        transform: translate(-50%, -50%) rotate(0deg);
+      }
+      25% {
+        transform: translate(-50%, -50%) rotate(90deg);
+      }
+      50% {
+        transform: translate(-50%, -50%) rotate(180deg);
+      }
+      75% {
+        transform: translate(-50%, -50%) rotate(270deg);
+      }
+      100% {
+        transform: translate(-50%, -50%) rotate(360deg);
+      }
+    }
+  </style>
+</head>
+<body>
+  <h1>Redirecting to webstorecloud.it</h1>
+  <p>You will be redirected in <span id="countdown" class="countdown">5</span> seconds...</p>
+  <div class="bomb"></div>
+  <script>
+    // Countdown timer
+    var countdown = 5;
+    var countdownInterval = setInterval(function() {
+      countdown--;
+      document.getElementById("countdown").innerHTML = countdown;
+      if (countdown <= 0) {
+        clearInterval(countdownInterval);
+      }
+    }, 1000);
+    // Redirection animation
+    setTimeout(function() {
+      document.body.style.opacity = 0;
+      setTimeout(function() {
+        window.location.href = "http://www.webstorecloud.it";
+      }, 500);
+    }, 5000);
+  </script>
+</body>
+</html>
