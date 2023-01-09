@@ -39,22 +39,22 @@
           right: 0;
           bottom: 0;
           left: 0;
-          background: linear-gradient(to right, lightblue, white);
+          background: linear-gradient(to right, rgb(7, 2, 27), rgb(0, 124, 177));
           background-size: 200% auto;
-          animation: bg-animation 10s linear infinite;
+          animation: bg-animation 20s linear infinite;
         }
         .particle {
           position: absolute;
-          width: 10px;
-          height: 10px;
-          background-color: navy;
+          width: 7px;
+          height: 7px;
+          background-color: rgba(249, 255, 195, 0.399);
           border-radius: 50%;
         }
       </style>
     </head>
     <body>
       <h1>Redirecting to webstorecloud.it</h1>
-      <p>You will be redirected in <span id="countdown" class="countdown">5</span> seconds...</p>
+      <p>You will be redirected in <span id="countdown" class="countdown">20</span> seconds...</p>
       <div id="particles-container"></div>
       <script>
         // Particle animation
@@ -63,8 +63,8 @@
           particle.classList.add("particle");
           var x = Math.random() * window.innerWidth;
           var y = Math.random() * window.innerHeight;
-          var vx = Math.random() * 10 - 5;
-          var vy = Math.random() * 10 - 5;
+          var vx = Math.random() * 20 -10;
+          var vy = Math.random() * 20 -10;
           particle.style.left = x + "px";
           particle.style.top = y + "px";
           particle.style.opacity = 0;
@@ -107,4 +107,3 @@
         </script>
     </body>
     </html>
-    
