@@ -56,7 +56,8 @@ server.use("/elements/games", gamesRouter);
 server.use("/elements/discover", discoversRouter);
 server.use("/elements/paid", paidsRouter);
 server.use("/search", searchRouter);
-server.get("/",(req, res, next) => {
+server.get("/",(req, res) => {
+  console.log(req,"hello")
   res.json("Hello World");
 });
 //
