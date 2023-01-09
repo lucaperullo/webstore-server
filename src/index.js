@@ -57,7 +57,7 @@ server.use("/elements/discover", discoversRouter);
 server.use("/elements/paid", paidsRouter);
 server.use("/search", searchRouter);
 server.get("/",(req, res, next) => {
-  res.send("Hello World");
+  res.json("Hello World");
 });
 //
 
