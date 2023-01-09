@@ -24,6 +24,14 @@
       font-weight: bold;
       margin: 8px 0;
     }
+    .goodbye{
+        transform: translateY(100%);
+        background-color: black;
+        color: white;
+        font-size: 64px;
+        font-weight: bold;
+        position: absolute;
+    }
     .bomb {
       position: absolute;
       top: 50%;
@@ -33,7 +41,7 @@
       height: 200px;
       background-image: url("https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/aa454069-1f38-4db1-a9e3-75d6b00c42e8/dewww5w-c62424b8-5032-41b1-87dc-8504d299ee2c.png/v1/fill/w_1280,h_1168,strp/pumpkin_bomb_green_goblin_png_by_akithefull_dewww5w-fullview.png?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7ImhlaWdodCI6Ijw9MTE2OCIsInBhdGgiOiJcL2ZcL2FhNDU0MDY5LTFmMzgtNGRiMS1hOWUzLTc1ZDZiMDBjNDJlOFwvZGV3d3c1dy1jNjI0MjRiOC01MDMyLTQxYjEtODdkYy04NTA0ZDI5OWVlMmMucG5nIiwid2lkdGgiOiI8PTEyODAifV1dLCJhdWQiOlsidXJuOnNlcnZpY2U6aW1hZ2Uub3BlcmF0aW9ucyJdfQ.VS8NMs7BMg3XR-H_NiKnPuWZ2w3vEmCa2ak3OLIZ0H0");
       background-size: cover;
-      animation: bomb-animation 5s linear infinite;
+      animation: bomb-animation 10s linear infinite;
     }
     @keyframes bomb-animation {
       /* the bomb should scale up and rotating to the monitor of the user */
@@ -54,9 +62,13 @@
   <h1>Redirecting to webstorecloud.it</h1>
   <p>You will be redirected in <span id="countdown" class="countdown">10</span> seconds...</p>
   <div class="bomb"></div>
+  <div class="goodbye" id="goodbye">
+    GOODBYE!
+  </div>
   <script>
     // Countdown timer
     var countdown = 10;
+    var goodbye = document.getElementById("goodbye");
     var countdownInterval = setInterval(function() {
       countdown--;
       document.getElementById("countdown").innerHTML = countdown;
@@ -66,9 +78,10 @@
     }, 1000);
     // Redirection animation
     setTimeout(function() {
-    //  bg that grows from the bottom to the top animation
-        document.body.style.backgroundImage = "linear-gradient(to top, black, white)";
-    //  bg that grows from the left to the right animation
+     //goodbye from top 100% to 0%
+        goodbye.style.transform = "translateY(0%)";
+        //transition it 
+        goodbye.style.transition = "transform 0.5s ease-in-out";
 
       setTimeout(function() {
         window.location.href = "http://www.webstorecloud.it";
