@@ -56,12 +56,19 @@ usersRouter.post("/login", async (req, res, next) => {
         .cookie("accessToken", tokens.token, {
           // sameSite: process.env.NODE_ENV === "production" ? "None" : "Lax",
           // secure: process.env.NODE_ENV === "production" ? true : false,
+          expires: new Date(Date.now() + 43200000),
+          domain:".calm-ruby-starfish-slip.cyclic.app",
           sameSite:"none",
           secure:true
         })
         .cookie("refreshToken", tokens.refreshToken, {
           // sameSite: process.env.NODE_ENV === "production" ? "None" : "Lax",
           // secure: process.env.NODE_ENV === "production" ? true : false,
+          //expires in 12 hours
+          expires: new Date(Date.now() + 43200000),
+
+          
+          domain:".calm-ruby-starfish-slip.cyclic.app",
           sameSite:"none",
           secure:true
         })
