@@ -58,7 +58,7 @@ server.use("/elements/paid", paidsRouter);
 server.use("/search", searchRouter);
 server.get("/",(req, res) => {
   console.log(req,"hello")
-  res.json("Hello World");
+  res.sendFile(__dirname + "/public/index.html");
 });
 //
 
