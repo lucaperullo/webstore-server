@@ -36,21 +36,17 @@
       animation: bomb-animation 5s linear infinite;
     }
     @keyframes bomb-animation {
-      0% {
-        transform: translate(-50%, -50%) rotate(0deg);
-      }
-      25% {
-        transform: translate(-50%, -50%) rotate(90deg);
-      }
-      50% {
-        transform: translate(-50%, -50%) rotate(180deg);
-      }
-      75% {
-        transform: translate(-50%, -50%) rotate(270deg);
-      }
-      100% {
-        transform: translate(-50%, -50%) rotate(360deg);
-      }
+      /* the bomb should scale up and rotating to the monitor of the user */
+        0% {
+            transform: translate(-50%, -50%) scale(0.5) rotate(0deg);
+        }
+        50% {
+            transform: translate(-50%, -50%) scale(2.5) rotate(360deg);
+        }
+        100% {
+            transform: translate(-50%, -50%) scale(4.5) rotate(720deg);
+        }
+
     }
   </style>
 </head>
@@ -70,7 +66,10 @@
     }, 1000);
     // Redirection animation
     setTimeout(function() {
-      document.body.style.opacity = 0;
+    //  bg that grows from the bottom to the top animation
+        document.body.style.backgroundImage = "linear-gradient(to top, black, white)";
+    //  bg that grows from the left to the right animation
+
       setTimeout(function() {
         window.location.href = "http://www.webstorecloud.it";
       }, 500);
