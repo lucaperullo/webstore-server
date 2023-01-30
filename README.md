@@ -1,0 +1,7 @@
+- `/register`: POST route that allows a new user to register with an email and password.
+- `/login`: POST route that logs a user in and returns access and refresh tokens as cookies.
+- `/logout`: POST route that logs a user out by clearing the access and refresh tokens as cookies.
+- `/refreshToken`: GET route that refreshes the access token with a valid refresh token.
+- `/me`: GET route that returns the authenticated user's information.
+- `/picture/:id`: POST route that allows a user to upload a profile picture.
+- `/updateInfo`: PUT route that updates a user's information.
